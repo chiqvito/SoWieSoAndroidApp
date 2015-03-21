@@ -19,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 
 import pl.chiqvito.sowieso.R;
 import pl.chiqvito.sowieso.ui.adapter.NavigationDrawerAdapter;
@@ -50,7 +49,9 @@ public class NavigationDrawerFragment extends Fragment {
     private int mCurrentSelectedSubPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
+
     private CharSequence mTitle;
+    private FragmentBuilder.FragmentName fragmentName;
 
     public NavigationDrawerFragment() {
     }
@@ -224,10 +225,34 @@ public class NavigationDrawerFragment extends Fragment {
             showGlobalContextActionBar(getString(R.string.app_name));
         }
         if (!isDrawerOpen()) {
-            inflater.inflate(R.menu.main_refresh, menu);
+            if (hasRefreshAction())
+                inflater.inflate(R.menu.main_refresh, menu);
+            if (hasSaveAction())
+                inflater.inflate(R.menu.main_save, menu);
             showGlobalContextActionBar(mTitle);
         }
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private boolean hasRefreshAction() {
+        if (fragmentName == null)
+            return false;
+        switch (fragmentName) {
+            case EXPENSE_LIST:
+                return true;
+        }
+        return false;
+    }
+
+    private boolean hasSaveAction() {
+        if (fragmentName == null)
+            return false;
+        switch (fragmentName) {
+            case EXPENSE_ADD:
+            case EXPENSE_EDIT:
+                return true;
+        }
+        return false;
     }
 
     @Override
@@ -236,9 +261,15 @@ public class NavigationDrawerFragment extends Fragment {
             return true;
         }
 
-        if (item.getItemId() == R.id.action_refresh) {
-            Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_refresh: {
+                mCallbacks.refresh();
+                return true;
+            }
+            case R.id.action_save: {
+                mCallbacks.save();
+                return true;
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -246,6 +277,10 @@ public class NavigationDrawerFragment extends Fragment {
 
     public void setTitle(CharSequence title) {
         mTitle = title;
+    }
+
+    public void setFragmentName(FragmentBuilder.FragmentName fn) {
+        fragmentName = fn;
     }
 
     private void showGlobalContextActionBar(CharSequence title) {
@@ -261,6 +296,10 @@ public class NavigationDrawerFragment extends Fragment {
 
     public static interface NavigationDrawerCallbacks {
         void onNavigationDrawerItemSelected(Fragment fragment);
+
+        void save();
+
+        void refresh();
     }
 
 }

@@ -9,13 +9,14 @@ import android.view.MenuItem;
 
 import pl.chiqvito.sowieso.R;
 import pl.chiqvito.sowieso.ui.fragment.FragmentBuilder;
+import pl.chiqvito.sowieso.ui.fragment.FragmentWrapper;
 import pl.chiqvito.sowieso.ui.fragment.NavigationDrawerFragment;
 
 
 public class MainActivity extends ActionBarActivity implements NavigationDrawerFragment.NavigationDrawerCallbacks, MainActivityCallback {
 
     private NavigationDrawerFragment mNavigationDrawerFragment;
-
+    private Fragment currentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     @Override
     public void onNavigationDrawerItemSelected(Fragment fragment) {
+        currentFragment = fragment;
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, fragment)
@@ -39,6 +41,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     @Override
     public void onSectionAttached(FragmentBuilder.FragmentName fn) {
         mNavigationDrawerFragment.setTitle(FragmentBuilder.title(this, fn));
+        mNavigationDrawerFragment.setFragmentName(fn);
     }
 
     @Override
@@ -50,4 +53,15 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void save() {
+        if (currentFragment instanceof FragmentWrapper)
+            ((FragmentWrapper) currentFragment).save();
+    }
+
+    @Override
+    public void refresh() {
+        if (currentFragment instanceof FragmentWrapper)
+            ((FragmentWrapper) currentFragment).refresh();
+    }
 }
