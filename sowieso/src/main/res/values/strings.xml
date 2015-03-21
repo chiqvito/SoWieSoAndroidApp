@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">SoWieSo</string>
+
+    <string name="title_expense_list">Expenses</string>
+    <string name="title_expense_add">Add expense</string>
+    <string name="title_expense_edit">Edit expense</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_refresh">Refresh</string>
+    <string name="action_settings">Settings</string>
+</resources>
