@@ -17,8 +17,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import pl.chiqvito.sowieso.Constants;
 import pl.chiqvito.sowieso.R;
+import pl.chiqvito.sowieso.bus.events.ExpenseEvent;
+import pl.chiqvito.sowieso.bus.events.ExpenseInfoEvent;
+import pl.chiqvito.sowieso.db.model.ExpenseEntity;
 import pl.chiqvito.sowieso.ui.validator.InputValidator;
 import pl.chiqvito.sowieso.ui.validator.SpinnerValidator;
 import pl.chiqvito.sowieso.ui.validator.TextValidator;
@@ -82,11 +86,74 @@ public class ExpenseFragment extends BaseFragment {
     public void save() {
         super.save();
         Log.d(TAG, "save");
+        disable();
         if (validate()) {
-//TODO
+            ExpenseEntity exp = collectData();
+            Log.v(TAG, "save: " + exp);
+            EventBus.getDefault().post(new ExpenseEvent(exp));
         } else {
+            enable();
             Boast.showText(getActivity(), getString(R.string.msg_fill_correct_form), Toast.LENGTH_SHORT);
         }
+    }
+
+    public void onEventMainThread(ExpenseInfoEvent event) {
+        Log.v(TAG, "event:" + event);
+        enable();
+        switch (event.getStatus()) {
+            case ExpenseInfoEvent.FAIL: {
+                Boast.showText(getActivity(), getString(R.string.msg_data_not_saved), Toast.LENGTH_SHORT);
+                break;
+            }
+            case ExpenseInfoEvent.SAVE: {
+                clear();
+                Toast.makeText(getActivity(), getString(R.string.msg_data_saved), Toast.LENGTH_SHORT);
+                break;
+            }
+        }
+    }
+
+    private void clear() {
+        holder.txtAmount.getText().clear();
+        holder.txtAmount.setError(null);
+        holder.txtDate.getText().clear();
+        holder.txtDate.setError(null);
+        holder.txtDesc.getText().clear();
+        holder.txtDesc.setError(null);
+        holder.txtName.getText().clear();
+        holder.txtName.setError(null);
+    }
+
+    private void enable() {
+        holder.txtAmount.setEnabled(true);
+        holder.txtDate.setEnabled(true);
+        holder.txtDesc.setEnabled(true);
+        holder.txtName.setEnabled(true);
+        holder.spinnerCategory.setEnabled(true);
+    }
+
+    private void disable() {
+        holder.txtAmount.setEnabled(false);
+        holder.txtDate.setEnabled(false);
+        holder.txtDesc.setEnabled(false);
+        holder.txtName.setEnabled(false);
+        holder.spinnerCategory.setEnabled(false);
+    }
+
+    private ExpenseEntity collectData() {
+        ExpenseEntity exp = new ExpenseEntity();
+//        Category cat = (Category) holder.spinnerCategory.getSelectedItem(); TODO
+//        if (cat != null) {
+//            Long catId = cat.getId();
+//            exp.setCategoryId(catId);
+//        } else {
+//            exp.setCategoryId(-1L);
+//        }
+        exp.setAmount(holder.txtAmount.getText().toString());
+        exp.setInfo(holder.txtDesc.getText().toString());
+        exp.setName(holder.txtName.getText().toString());
+        exp.setOperationDate(holder.txtDate.getText().toString());
+        return exp;
     }
 
     private boolean validate() {
@@ -133,19 +200,19 @@ public class ExpenseFragment extends BaseFragment {
         validators.add(dateVali);
         holder.txtDate.addTextChangedListener((TextWatcher) dateVali);
 
-        SpinnerValidator spinnerVali = new SpinnerValidator(holder.spinnerCategory) {
-
-            @Override
-            public boolean validate(Spinner spinner) {
-                Object obj = spinner.getSelectedItem();
-                if (obj == null) {
-                    Toast.makeText(getActivity(), getString(R.string.msg_category_not_selected), Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-                return true;
-            }
-        };
-        validators.add(spinnerVali);
+//        SpinnerValidator spinnerVali = new SpinnerValidator(holder.spinnerCategory) {TODO
+//
+//            @Override
+//            public boolean validate(Spinner spinner) {
+//                Object obj = spinner.getSelectedItem();
+//                if (obj == null) {
+//                    Toast.makeText(getActivity(), getString(R.string.msg_category_not_selected), Toast.LENGTH_SHORT).show();
+//                    return false;
+//                }
+//                return true;
+//            }
+//        };
+//        validators.add(spinnerVali);
     }
 
     private void addListeners() {
@@ -156,14 +223,14 @@ public class ExpenseFragment extends BaseFragment {
                 showDatePicekr();
             }
         });
-        holder.txtDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    showDatePicekr();
-                }
-            }
-        });
+//        holder.txtDate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (hasFocus) {
+//                    showDatePicekr();
+//                }
+//            }
+//        });
     }
 
     private void showDatePicekr() {

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import de.greenrobot.event.EventBus;
 import pl.chiqvito.sowieso.Constants;
 import pl.chiqvito.sowieso.ui.activity.MainActivityCallback;
 
@@ -19,6 +20,18 @@ public class BaseFragment extends Fragment implements FragmentWrapper {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         ((MainActivityCallback) activity).onSectionAttached(fragmentName());
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
