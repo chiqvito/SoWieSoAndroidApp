@@ -3,12 +3,17 @@ package pl.chiqvito.sowieso.bus;
 import de.greenrobot.event.EventBus;
 import pl.chiqvito.sowieso.BuildConfig;
 import pl.chiqvito.sowieso.bus.subscribers.ExpenseSubscriber;
+import pl.chiqvito.sowieso.db.DbServices;
 
 public class EventBusConfigurator {
 
-    ExpenseSubscriber expenseSubscriber;
+    private DbServices dbServices;
 
-    public EventBusConfigurator() {
+    private ExpenseSubscriber expenseSubscriber;
+
+    public EventBusConfigurator dbServices(DbServices dbServices) {
+        this.dbServices = dbServices;
+        return this;
     }
 
     private void build() {

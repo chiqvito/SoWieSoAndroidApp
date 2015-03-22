@@ -1,0 +1,58 @@
+package pl.chiqvito.sowieso.db;
+
+public interface DBConstatants {
+
+    int DB_VERSION = 6;
+    String DB_NAME = "sowieso_db";
+
+    String DB_TABLE_PROPERTIES = "properties";
+    String DB_TABLE_PROPERTIES_A__NAME = "name";
+    String DB_TABLE_PROPERTIES_A__VALUE = "value";
+    String DB_CREATE_PROPERTIES = "CREATE TABLE " + DB_TABLE_PROPERTIES + " ("
+            + DB_TABLE_PROPERTIES_A__NAME + " TEXT PRIMARY KEY, "
+            + DB_TABLE_PROPERTIES_A__VALUE + " TEXT NOT NULL);";
+    String DB_TABLE_PROPERTIES_COUNT = "SELECT count(*) FROM " + DB_TABLE_PROPERTIES;
+    String[] DB_TABLE_PROPERTIES_COLS = new String[]{DB_TABLE_PROPERTIES_A__NAME, DB_TABLE_PROPERTIES_A__VALUE};
+
+    String DB_TABLE_PROPERTIES_A__NAME_SID = "sid";
+
+    String DB_TABLE_BG_CATEGORIES = "bg_categories";
+    String DB_TABLE_BG_CATEGORIES_A__ID = "_id";
+    String DB_TABLE_BG_CATEGORIES_A__NAME = "name";
+    String DB_TABLE_BG_CATEGORIES_A__SELECTED = "selected";
+    String DB_TABLE_BG_CATEGORIES_A__PARENT_ID = "parent_id";
+    String DB_CREATE_BG_CATEGORIES = "CREATE TABLE " + DB_TABLE_BG_CATEGORIES + " ("
+            + DB_TABLE_BG_CATEGORIES_A__ID + " INTEGER PRIMARY KEY, "
+            + DB_TABLE_BG_CATEGORIES_A__NAME + " TEXT NOT NULL, "
+            + DB_TABLE_BG_CATEGORIES_A__SELECTED + " INTEGER NOT NULL DEFAULT 0, "
+            + DB_TABLE_BG_CATEGORIES_A__PARENT_ID + " INTEGER);";
+    String[] DB_TABLE_BG_CATEGORIES_COLS = new String[]{
+            DB_TABLE_BG_CATEGORIES_A__ID,
+            DB_TABLE_BG_CATEGORIES_A__NAME,
+            DB_TABLE_BG_CATEGORIES_A__SELECTED,
+            DB_TABLE_BG_CATEGORIES_A__PARENT_ID};
+
+    String DB_TABLE_BG_EXPENSES = "bg_expenses";
+    String DB_TABLE_BG_EXPENSES_A__ID = "_id";
+    String DB_TABLE_BG_EXPENSES_A__CATEGORY_ID = "category_id";
+    String DB_TABLE_BG_EXPENSES_A__NAME = "name";
+    String DB_TABLE_BG_EXPENSES_A__OPERATIONDATE = "operationdate";
+    String DB_TABLE_BG_EXPENSES_A__AMOUNT = "amount";
+    String DB_TABLE_BG_EXPENSES_A__INFO = "info";
+    String DB_CREATE_BG_EXPENSES = "CREATE TABLE " + DB_TABLE_BG_EXPENSES + " ("
+            + DB_TABLE_BG_EXPENSES_A__ID + " INTEGER PRIMARY KEY, "
+            + DB_TABLE_BG_EXPENSES_A__NAME + " TEXT NOT NULL, "
+            + DB_TABLE_BG_EXPENSES_A__CATEGORY_ID + " INTEGER NOT NULL, "
+            + DB_TABLE_BG_EXPENSES_A__AMOUNT + " TEXT NOT NULL, "
+            + DB_TABLE_BG_EXPENSES_A__OPERATIONDATE + " TEXT NOT NULL, "
+            + DB_TABLE_BG_EXPENSES_A__INFO + " TEXT NULL, "
+            + "FOREIGN KEY(" + DB_TABLE_BG_EXPENSES_A__CATEGORY_ID + ") REFERENCES " + DB_TABLE_BG_CATEGORIES + "(" + DB_TABLE_BG_CATEGORIES_A__ID + ") ON DELETE CASCADE);";
+    String[] DB_TABLE_BG_EXPENSES_COLS = new String[]{
+            DB_TABLE_BG_EXPENSES_A__ID,
+            DB_TABLE_BG_EXPENSES_A__CATEGORY_ID,
+            DB_TABLE_BG_EXPENSES_A__NAME,
+            DB_TABLE_BG_EXPENSES_A__OPERATIONDATE,
+            DB_TABLE_BG_EXPENSES_A__AMOUNT,
+            DB_TABLE_BG_EXPENSES_A__INFO};
+
+}
