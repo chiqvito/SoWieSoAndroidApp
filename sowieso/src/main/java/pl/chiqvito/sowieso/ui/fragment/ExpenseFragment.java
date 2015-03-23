@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -20,8 +22,11 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 import pl.chiqvito.sowieso.Constants;
 import pl.chiqvito.sowieso.R;
+import pl.chiqvito.sowieso.bus.events.CategoriesEvent;
+import pl.chiqvito.sowieso.bus.events.CategoryOperationEvent;
 import pl.chiqvito.sowieso.bus.events.ExpenseEvent;
 import pl.chiqvito.sowieso.bus.events.ExpenseInfoEvent;
+import pl.chiqvito.sowieso.db.model.CategoryEntity;
 import pl.chiqvito.sowieso.db.model.ExpenseEntity;
 import pl.chiqvito.sowieso.ui.validator.InputValidator;
 import pl.chiqvito.sowieso.ui.validator.SpinnerValidator;
@@ -79,6 +84,8 @@ public class ExpenseFragment extends BaseFragment {
         addValidators();
         addListeners();
 
+        EventBus.getDefault().post(new CategoryOperationEvent(CategoryOperationEvent.GET_ALL, null));
+
         return rootView;
     }
 
@@ -113,6 +120,22 @@ public class ExpenseFragment extends BaseFragment {
         }
     }
 
+    public void onEventMainThread(CategoriesEvent event) {
+        Log.v(TAG, "event:" + event);
+        ArrayAdapter<CategoryEntity> dataAdapter = new ArrayAdapter<CategoryEntity>(getActivity(), android.R.layout.simple_spinner_item, event.getCategories());
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        int position = 0;
+        for (int i = 0; i < dataAdapter.getCount(); i++) {
+            CategoryEntity cat = dataAdapter.getItem(i);
+            if (cat != null && cat.getIsSelected()) {
+                position = i;
+                break;
+            }
+        }
+        holder.spinnerCategory.setAdapter(dataAdapter);
+        holder.spinnerCategory.setSelection(position);
+    }
+
     private void clear() {
         holder.txtAmount.getText().clear();
         holder.txtAmount.setError(null);
@@ -142,13 +165,13 @@ public class ExpenseFragment extends BaseFragment {
 
     private ExpenseEntity collectData() {
         ExpenseEntity exp = new ExpenseEntity();
-//        Category cat = (Category) holder.spinnerCategory.getSelectedItem(); TODO
-//        if (cat != null) {
-//            Long catId = cat.getId();
-//            exp.setCategoryId(catId);
-//        } else {
-//            exp.setCategoryId(-1L);
-//        }
+        CategoryEntity cat = (CategoryEntity) holder.spinnerCategory.getSelectedItem();
+        if (cat != null) {
+            Long catId = cat.getId();
+            exp.setCategoryId(catId);
+        } else {
+            exp.setCategoryId(-1L);
+        }
         exp.setAmount(holder.txtAmount.getText().toString());
         exp.setInfo(holder.txtDesc.getText().toString());
         exp.setName(holder.txtName.getText().toString());
@@ -200,19 +223,19 @@ public class ExpenseFragment extends BaseFragment {
         validators.add(dateVali);
         holder.txtDate.addTextChangedListener((TextWatcher) dateVali);
 
-//        SpinnerValidator spinnerVali = new SpinnerValidator(holder.spinnerCategory) {TODO
-//
-//            @Override
-//            public boolean validate(Spinner spinner) {
-//                Object obj = spinner.getSelectedItem();
-//                if (obj == null) {
-//                    Toast.makeText(getActivity(), getString(R.string.msg_category_not_selected), Toast.LENGTH_SHORT).show();
-//                    return false;
-//                }
-//                return true;
-//            }
-//        };
-//        validators.add(spinnerVali);
+        SpinnerValidator spinnerVali = new SpinnerValidator(holder.spinnerCategory) {
+
+            @Override
+            public boolean validate(Spinner spinner) {
+                Object obj = spinner.getSelectedItem();
+                if (obj == null) {
+                    Toast.makeText(getActivity(), getString(R.string.msg_category_not_selected), Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                return true;
+            }
+        };
+        validators.add(spinnerVali);
     }
 
     private void addListeners() {
@@ -231,6 +254,27 @@ public class ExpenseFragment extends BaseFragment {
 //                }
 //            }
 //        });
+        holder.spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
+
+                @SuppressWarnings("unchecked")
+                ArrayAdapter<CategoryEntity> myAdap = (ArrayAdapter<CategoryEntity>) holder.spinnerCategory.getAdapter();
+                if (myAdap != null) {
+                    CategoryEntity cat = myAdap.getItem(position);
+                    if (cat != null) {
+                        EventBus.getDefault().post(new CategoryOperationEvent(CategoryOperationEvent.SELECT, cat));
+                    }
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+
+        });
     }
 
     private void showDatePicekr() {
