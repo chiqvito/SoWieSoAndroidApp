@@ -24,7 +24,7 @@ public class CategorySubscriber {
         this.categoriesService = categoriesService;
     }
 
-    public void onEvent(CategoryOperationEvent event) {
+    public void onEventBackgroundThread(CategoryOperationEvent event) {
         Log.v(TAG, "event:" + event);
         switch (event.getOperation()) {
             case CategoryOperationEvent.SELECT: {

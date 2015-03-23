@@ -2,6 +2,8 @@ package pl.chiqvito.sowieso.db.service;
 
 import android.util.Log;
 
+import java.util.List;
+
 import pl.chiqvito.sowieso.db.DbManager;
 import pl.chiqvito.sowieso.db.dao.ExpensesDao;
 import pl.chiqvito.sowieso.db.model.ExpenseEntity;
@@ -37,5 +39,10 @@ public class ExpensesServiceImpl implements ExpensesService {
             Log.e(TAG, e.getMessage(), e);
         }
         return false;
+    }
+
+    @Override
+    public List<ExpenseEntity> getAllWithCategories() {
+        return dao.getAllWithCategories();
     }
 }

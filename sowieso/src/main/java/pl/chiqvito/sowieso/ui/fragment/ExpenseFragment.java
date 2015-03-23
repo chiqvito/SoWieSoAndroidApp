@@ -24,8 +24,8 @@ import pl.chiqvito.sowieso.Constants;
 import pl.chiqvito.sowieso.R;
 import pl.chiqvito.sowieso.bus.events.CategoriesEvent;
 import pl.chiqvito.sowieso.bus.events.CategoryOperationEvent;
-import pl.chiqvito.sowieso.bus.events.ExpenseEvent;
 import pl.chiqvito.sowieso.bus.events.ExpenseInfoEvent;
+import pl.chiqvito.sowieso.bus.events.ExpenseOperationEvent;
 import pl.chiqvito.sowieso.db.model.CategoryEntity;
 import pl.chiqvito.sowieso.db.model.ExpenseEntity;
 import pl.chiqvito.sowieso.ui.validator.InputValidator;
@@ -101,7 +101,7 @@ public class ExpenseFragment extends BaseFragment {
         if (validate()) {
             ExpenseEntity exp = collectData();
             Log.v(TAG, "save: " + exp);
-            EventBus.getDefault().post(new ExpenseEvent(exp));
+            EventBus.getDefault().post(new ExpenseOperationEvent(ExpenseOperationEvent.SAVE, exp));
         } else {
             enable();
             Boast.showText(getActivity(), getString(R.string.msg_fill_correct_form), Toast.LENGTH_SHORT);
