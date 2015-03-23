@@ -16,6 +16,7 @@ public class ExpenseEntity {
     private String operationDate;
     private String amount;
     private String info;
+    private CategoryEntity category;
 
     public boolean isFilled() {
         if (id == null || id.longValue() == -1) {
@@ -102,6 +103,14 @@ public class ExpenseEntity {
         }
     }
 
+    public CategoryEntity getCategory() {
+        return category;
+    }
+
+    public void setCategory(CategoryEntity category) {
+        this.category = category;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -132,5 +141,5 @@ public class ExpenseEntity {
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
     }
-    
+
 }

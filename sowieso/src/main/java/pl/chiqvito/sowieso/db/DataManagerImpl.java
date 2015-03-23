@@ -7,6 +7,8 @@ import android.util.Log;
 
 import pl.chiqvito.sowieso.db.service.CategoriesService;
 import pl.chiqvito.sowieso.db.service.CategoriesServiceImpl;
+import pl.chiqvito.sowieso.db.service.ExpensesService;
+import pl.chiqvito.sowieso.db.service.ExpensesServiceImpl;
 import pl.chiqvito.sowieso.db.service.PropertiesService;
 import pl.chiqvito.sowieso.db.service.PropertiesServiceImpl;
 
@@ -16,6 +18,7 @@ public class DataManagerImpl implements DbServices, DbManager {
 
     private PropertiesService propertiesService;
     private CategoriesService categoriesService;
+    private ExpensesService expensesService;
 
     private final DBOpenHelper dbOpenHelper;
     private SQLiteDatabase db;
@@ -25,6 +28,7 @@ public class DataManagerImpl implements DbServices, DbManager {
         dbOpenHelper = new DBOpenHelper(context);
         propertiesService = new PropertiesServiceImpl(this);
         categoriesService = new CategoriesServiceImpl(this);
+        expensesService = new ExpensesServiceImpl(this);
     }
 
     @Override
@@ -65,5 +69,10 @@ public class DataManagerImpl implements DbServices, DbManager {
     @Override
     public CategoriesService categoriesService() {
         return categoriesService;
+    }
+
+    @Override
+    public ExpensesService expensesService() {
+        return expensesService;
     }
 }
