@@ -24,7 +24,7 @@ public class PropertyEntity {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Property [");
+        sb.append(PropertyEntity.class.getSimpleName() + " [");
         sb.append("name=" + name);
         sb.append(", value=" + value);
         sb.append("]");

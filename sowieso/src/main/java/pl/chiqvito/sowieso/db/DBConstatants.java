@@ -26,6 +26,7 @@ public interface DBConstatants {
             + DB_TABLE_BG_CATEGORIES_A__NAME + " TEXT NOT NULL, "
             + DB_TABLE_BG_CATEGORIES_A__SELECTED + " INTEGER NOT NULL DEFAULT 0, "
             + DB_TABLE_BG_CATEGORIES_A__PARENT_ID + " INTEGER);";
+    String DB_TABLE_CATEGORIES_COUNT = "SELECT count(*) FROM " + DB_TABLE_BG_CATEGORIES;
     String[] DB_TABLE_BG_CATEGORIES_COLS = new String[]{
             DB_TABLE_BG_CATEGORIES_A__ID,
             DB_TABLE_BG_CATEGORIES_A__NAME,
