@@ -17,7 +17,7 @@ public class EventBusConfigurator {
     }
 
     private void build() {
-        expenseSubscriber = new ExpenseSubscriber();
+        expenseSubscriber = new ExpenseSubscriber(dbServices.expensesService());
     }
 
     public void register() {

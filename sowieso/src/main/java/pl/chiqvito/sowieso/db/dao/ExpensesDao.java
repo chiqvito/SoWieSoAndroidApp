@@ -37,7 +37,7 @@ public class ExpensesDao implements DAO<ExpenseEntity, Long> {
     }
 
     @Override
-    public void update(ExpenseEntity type) {
+    public int update(ExpenseEntity type) {
         ContentValues values = new ContentValues();
         values.put(DBConstatants.DB_TABLE_BG_EXPENSES_A__AMOUNT, type.getAmount());
         values.put(DBConstatants.DB_TABLE_BG_EXPENSES_A__CATEGORY_ID, type.getCategoryId());
@@ -45,18 +45,19 @@ public class ExpensesDao implements DAO<ExpenseEntity, Long> {
         values.put(DBConstatants.DB_TABLE_BG_EXPENSES_A__INFO, type.getInfo());
         values.put(DBConstatants.DB_TABLE_BG_EXPENSES_A__NAME, type.getName());
         values.put(DBConstatants.DB_TABLE_BG_EXPENSES_A__OPERATIONDATE, type.getOperationDate());
-        this.db.getDb().update(DBConstatants.DB_TABLE_BG_EXPENSES, values, DBConstatants.DB_TABLE_BG_EXPENSES_A__ID + "=" + type.getId(), null);
+        return this.db.getDb().update(DBConstatants.DB_TABLE_BG_EXPENSES, values, DBConstatants.DB_TABLE_BG_EXPENSES_A__ID + "=" + type.getId(), null);
     }
 
     @Override
-    public void delete(ExpenseEntity type) {
-        this.db.getDb().delete(DBConstatants.DB_TABLE_BG_EXPENSES, DBConstatants.DB_TABLE_BG_EXPENSES_A__ID + "=" + type.getId(), null);
+    public int delete(ExpenseEntity type) {
+        return this.db.getDb().delete(DBConstatants.DB_TABLE_BG_EXPENSES, DBConstatants.DB_TABLE_BG_EXPENSES_A__ID + "=" + type.getId(), null);
     }
 
     @Override
-    public void deleteAll() {
-        this.db.getDb().delete(DBConstatants.DB_TABLE_BG_EXPENSES, null, null);
+    public int deleteAll() {
+        int rows = this.db.getDb().delete(DBConstatants.DB_TABLE_BG_EXPENSES, null, null);
         db.getDb().execSQL("vacuum");
+        return rows;
     }
 
     @Override

@@ -32,23 +32,24 @@ public class CategoriesDao implements DAO<CategoryEntity, Long> {
     }
 
     @Override
-    public void update(CategoryEntity type) {
+    public int update(CategoryEntity type) {
         ContentValues values = new ContentValues();
         values.put(DBConstatants.DB_TABLE_BG_CATEGORIES_A__ID, type.getId());
         values.put(DBConstatants.DB_TABLE_BG_CATEGORIES_A__NAME, type.getName());
         values.put(DBConstatants.DB_TABLE_BG_CATEGORIES_A__PARENT_ID, type.getParentId());
-        this.db.getDb().update(DBConstatants.DB_TABLE_BG_CATEGORIES, values, DBConstatants.DB_TABLE_BG_CATEGORIES_A__ID + "=" + type.getId(), null);
+        return this.db.getDb().update(DBConstatants.DB_TABLE_BG_CATEGORIES, values, DBConstatants.DB_TABLE_BG_CATEGORIES_A__ID + "=" + type.getId(), null);
     }
 
     @Override
-    public void delete(CategoryEntity type) {
-        this.db.getDb().delete(DBConstatants.DB_TABLE_BG_CATEGORIES, DBConstatants.DB_TABLE_BG_CATEGORIES_A__ID + "=" + type.getId(), null);
+    public int delete(CategoryEntity type) {
+        return this.db.getDb().delete(DBConstatants.DB_TABLE_BG_CATEGORIES, DBConstatants.DB_TABLE_BG_CATEGORIES_A__ID + "=" + type.getId(), null);
     }
 
     @Override
-    public void deleteAll() {
-        this.db.getDb().delete(DBConstatants.DB_TABLE_BG_CATEGORIES, null, null);
+    public int deleteAll() {
+        int rows = this.db.getDb().delete(DBConstatants.DB_TABLE_BG_CATEGORIES, null, null);
         db.getDb().execSQL("vacuum");
+        return rows;
     }
 
     @Override

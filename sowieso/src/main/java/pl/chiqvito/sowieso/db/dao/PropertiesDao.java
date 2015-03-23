@@ -23,31 +23,35 @@ public class PropertiesDao implements DAO<PropertyEntity, String> {
     }
 
     @Override
-    public Long insert(PropertyEntity type) {
+    public String insert(PropertyEntity type) {
         ContentValues values = new ContentValues();
         values.put(DBConstatants.DB_TABLE_PROPERTIES_A__NAME, type.getName());
         values.put(DBConstatants.DB_TABLE_PROPERTIES_A__VALUE, type.getValue());
-        return db.getDb().insert(DBConstatants.DB_TABLE_PROPERTIES, null, values);
+        long id = db.getDb().insert(DBConstatants.DB_TABLE_PROPERTIES, null, values);
+        if (id > 0)
+            return type.getName();
+        return null;
     }
 
     @Override
-    public void update(PropertyEntity type) {
+    public int update(PropertyEntity type) {
         ContentValues values = new ContentValues();
         values.put(DBConstatants.DB_TABLE_PROPERTIES_A__NAME, type.getName());
         values.put(DBConstatants.DB_TABLE_PROPERTIES_A__VALUE, type.getValue());
-        db.getDb().update(DBConstatants.DB_TABLE_PROPERTIES, values, DBConstatants.DB_TABLE_PROPERTIES_A__NAME + "=\"" + type.getName() + "\"", null);
+        return db.getDb().update(DBConstatants.DB_TABLE_PROPERTIES, values, DBConstatants.DB_TABLE_PROPERTIES_A__NAME + "=\"" + type.getName() + "\"", null);
     }
 
     @Override
-    public void delete(PropertyEntity type) {
-        db.getDb().delete(DBConstatants.DB_TABLE_PROPERTIES, DBConstatants.DB_TABLE_PROPERTIES_A__NAME + "=\"" + type.getName() + "\"", null);
+    public int delete(PropertyEntity type) {
+        return db.getDb().delete(DBConstatants.DB_TABLE_PROPERTIES, DBConstatants.DB_TABLE_PROPERTIES_A__NAME + "=\"" + type.getName() + "\"", null);
     }
 
     @Override
-    public void deleteAll() {
+    public int deleteAll() {
         Log.d(TAG, "deleteAll");
-        db.getDb().execSQL("delete from " + DBConstatants.DB_TABLE_PROPERTIES);
+        int rows = this.db.getDb().delete(DBConstatants.DB_TABLE_PROPERTIES, null, null);
         db.getDb().execSQL("vacuum");
+        return rows;
     }
 
     @Override

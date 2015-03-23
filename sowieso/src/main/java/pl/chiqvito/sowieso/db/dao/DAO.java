@@ -4,13 +4,13 @@ import java.util.List;
 
 public interface DAO<T, K> {
 
-    Long insert(T type);
+    K insert(T type);
 
-    void update(T type);
+    int update(T type);
 
-    void delete(T type);
+    int delete(T type);
 
-    void deleteAll();
+    int deleteAll();
 
     T get(K id);
 
