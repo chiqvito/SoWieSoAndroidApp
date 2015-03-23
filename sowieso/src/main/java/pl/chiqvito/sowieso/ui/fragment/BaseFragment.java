@@ -12,6 +12,8 @@ public class BaseFragment extends Fragment implements FragmentWrapper {
 
     private static final String TAG = BaseFragment.class.getName();
 
+    protected NavigationDrawerFragment.NavigationDrawerCallbacks mCallbacks;
+
     protected FragmentBuilder.FragmentName fragmentName() {
         return FragmentBuilder.FragmentName.valueOf(getArguments().getString(Constants.FRAGMENT_NAME));
     }
@@ -20,6 +22,17 @@ public class BaseFragment extends Fragment implements FragmentWrapper {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         ((MainActivityCallback) activity).onSectionAttached(fragmentName());
+        try {
+            mCallbacks = (NavigationDrawerFragment.NavigationDrawerCallbacks) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallbacks = null;
     }
 
     @Override
