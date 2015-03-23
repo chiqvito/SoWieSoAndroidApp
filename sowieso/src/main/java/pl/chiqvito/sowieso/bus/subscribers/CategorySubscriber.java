@@ -9,6 +9,10 @@ import pl.chiqvito.sowieso.bus.events.CategoriesEvent;
 import pl.chiqvito.sowieso.bus.events.CategoryOperationEvent;
 import pl.chiqvito.sowieso.db.model.CategoryEntity;
 import pl.chiqvito.sowieso.db.service.CategoriesService;
+import pl.chiqvito.sowieso.rest.client.BasicOnResultCallback;
+import pl.chiqvito.sowieso.rest.client.CategoriesClient;
+import pl.chiqvito.sowieso.rest.dto.CategoryDTO;
+import retrofit.client.Response;
 
 public class CategorySubscriber {
 
@@ -29,14 +33,33 @@ public class CategorySubscriber {
             }
             case CategoryOperationEvent.GET_ALL: {
                 List<CategoryEntity> categories = categoriesService.categories();
+                Log.v(TAG, "categories:" + categories);
                 if (categories.isEmpty()) {
-//TODO download
+                    EventBus.getDefault().post(new CategoryOperationEvent(CategoryOperationEvent.DOWNLOAD, null));
                 } else {
                     EventBus.getDefault().post(new CategoriesEvent(categories));
                 }
                 break;
             }
         }
+    }
+
+    public void onEventAsync(CategoryOperationEvent event) {
+        Log.v(TAG, "event:" + event);
+
+        if (event.getOperation() != CategoryOperationEvent.DOWNLOAD)
+            return;
+
+        CategoriesClient client = new CategoriesClient();
+        client.setOnResultCallback(new BasicOnResultCallback<List<CategoryDTO>>() {
+            @Override
+            public void onResponseOk(List<CategoryDTO> categoryDTOs, Response r) {
+                categoriesService.saveCategories(categoryDTOs);
+                List<CategoryEntity> categories = categoriesService.categories();
+                EventBus.getDefault().post(new CategoriesEvent(categories));
+            }
+        });
+        client.execute();
     }
 
 }

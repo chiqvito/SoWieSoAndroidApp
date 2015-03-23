@@ -6,6 +6,7 @@ public class CategoryOperationEvent {
 
     public final static int SELECT = 0;
     public final static int GET_ALL = 1;
+    public final static int DOWNLOAD = 2;
 
     private final int operation;
     private final CategoryEntity category;

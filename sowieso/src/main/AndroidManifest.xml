@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pl.chiqvito.sowieso">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".SoWieSoApplication"
         android:allowBackup="true"

@@ -45,14 +45,9 @@ public class CategoryEntity {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(CategoryEntity.class.getSimpleName() + " [");
-        sb.append("id=" + id);
-        sb.append(", name=" + name);
-        sb.append(", parentId=" + parentId);
-        sb.append(", isSelected=" + isSelected);
-        sb.append("]");
-        return sb.toString();
+        if (parentId != null)
+            return " - " + name;
+        return name;
     }
 
 }

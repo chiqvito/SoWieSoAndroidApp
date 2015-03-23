@@ -59,6 +59,12 @@ public class ExpenseFragment extends BaseFragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().post(new CategoryOperationEvent(CategoryOperationEvent.GET_ALL, null));
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_expense, container, false);
 
@@ -83,8 +89,6 @@ public class ExpenseFragment extends BaseFragment {
 
         addValidators();
         addListeners();
-
-        EventBus.getDefault().post(new CategoryOperationEvent(CategoryOperationEvent.GET_ALL, null));
 
         return rootView;
     }
