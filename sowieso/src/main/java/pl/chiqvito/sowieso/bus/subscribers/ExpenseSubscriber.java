@@ -52,7 +52,7 @@ public class ExpenseSubscriber {
                 break;
             }
             case ExpenseOperationEvent.EDIT: {
-                //TODO
+                EventBus.getDefault().post(new SwitchFragmentEvent(FragmentBuilder.FragmentName.EXPENSE_EDIT, event.getExpense()));
                 break;
             }
             case ExpenseOperationEvent.REMOVE: {

@@ -1,13 +1,16 @@
 package pl.chiqvito.sowieso.ui.fragment;
 
 import android.content.Context;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 
 import pl.chiqvito.sowieso.R;
+import pl.chiqvito.sowieso.db.model.ExpenseEntity;
 
 public class FragmentBuilder {
 
     private FragmentName fn;
+    private Parcelable parcelable;
 
     public enum FragmentName {
         EXPENSE_LIST,
@@ -17,6 +20,11 @@ public class FragmentBuilder {
 
     public FragmentBuilder(FragmentName fn) {
         this.fn = fn;
+    }
+
+    public FragmentBuilder parcelable(Parcelable parcelable) {
+        this.parcelable = parcelable;
+        return this;
     }
 
     public static String title(Context ctx, FragmentName fn) {
@@ -36,7 +44,7 @@ public class FragmentBuilder {
             case EXPENSE_ADD:
                 return ExpenseFragment.newInstance(fn);
             case EXPENSE_EDIT:
-                return ExpenseFragment.newInstance(fn);
+                return ExpenseFragment.newInstance(fn, (ExpenseEntity) parcelable);
             case EXPENSE_LIST:
                 return ExpensesFragment.newInstance(fn);
         }

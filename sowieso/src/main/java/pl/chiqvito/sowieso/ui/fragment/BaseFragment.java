@@ -23,6 +23,7 @@ public class BaseFragment extends Fragment implements FragmentWrapper {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         ((MainActivityCallback) activity).onSectionAttached(fragmentName());
+        getActivity().supportInvalidateOptionsMenu();
         try {
             mCallbacks = (NavigationDrawerFragment.NavigationDrawerCallbacks) activity;
         } catch (ClassCastException e) {
@@ -60,7 +61,7 @@ public class BaseFragment extends Fragment implements FragmentWrapper {
 
     public void onEventMainThread(SwitchFragmentEvent event) {
         Log.v(TAG, "event:" + event);
-        Fragment fragment = new FragmentBuilder(event.getFragmentName()).build();
+        Fragment fragment = new FragmentBuilder(event.getFragmentName()).parcelable(event.getParcelable()).build();
         mCallbacks.onNavigationDrawerItemSelected(fragment);
     }
 }

@@ -46,13 +46,22 @@ public class ExpenseFragment extends BaseFragment {
     private int month;
     private int day;
 
-
     public static ExpenseFragment newInstance(FragmentBuilder.FragmentName fn) {
+        return newInstance(fn, null);
+    }
+
+    public static ExpenseFragment newInstance(FragmentBuilder.FragmentName fn, ExpenseEntity expense) {
         ExpenseFragment fragment = new ExpenseFragment();
         Bundle args = new Bundle();
+        if (expense != null)
+            args.putParcelable("expense", expense);
         args.putString(Constants.FRAGMENT_NAME, fn.name());
         fragment.setArguments(args);
         return fragment;
+    }
+
+    private ExpenseEntity expense() {
+        return getArguments().getParcelable("expense");
     }
 
     public ExpenseFragment() {
@@ -140,6 +149,16 @@ public class ExpenseFragment extends BaseFragment {
         }
         holder.spinnerCategory.setAdapter(dataAdapter);
         holder.spinnerCategory.setSelection(position);
+
+        ExpenseEntity expense = expense();
+        if (expense != null) {
+            position = dataAdapter.getPosition(expense.getCategory());
+            holder.spinnerCategory.setSelection(position);
+            holder.txtAmount.setText(expense.getAmount());
+            holder.txtDate.setText(expense.getOperationDate());
+            holder.txtDesc.setText(expense.getInfo());
+            holder.txtName.setText(expense.getName());
+        }
     }
 
     private void clear() {
@@ -171,6 +190,10 @@ public class ExpenseFragment extends BaseFragment {
 
     private ExpenseEntity collectData() {
         ExpenseEntity exp = new ExpenseEntity();
+        ExpenseEntity expense = expense();
+        if (expense != null) {
+            exp.setId(expense.getId());
+        }
         CategoryEntity cat = (CategoryEntity) holder.spinnerCategory.getSelectedItem();
         if (cat != null) {
             Long catId = cat.getId();
