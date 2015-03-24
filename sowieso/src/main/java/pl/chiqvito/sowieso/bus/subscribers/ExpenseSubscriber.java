@@ -2,19 +2,24 @@ package pl.chiqvito.sowieso.bus.subscribers;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import pl.chiqvito.sowieso.R;
 import pl.chiqvito.sowieso.bus.events.ExpenseInfoEvent;
 import pl.chiqvito.sowieso.bus.events.ExpenseOperationEvent;
 import pl.chiqvito.sowieso.bus.events.ExpensesEvent;
+import pl.chiqvito.sowieso.bus.events.SwitchFragmentEvent;
 import pl.chiqvito.sowieso.db.model.ExpenseEntity;
 import pl.chiqvito.sowieso.db.service.ExpensesService;
 import pl.chiqvito.sowieso.db.service.PropertiesService;
 import pl.chiqvito.sowieso.rest.client.BasicOnResultCallback;
 import pl.chiqvito.sowieso.rest.client.ExpenseSaveClient;
 import pl.chiqvito.sowieso.rest.dto.ExpenseDTO;
+import pl.chiqvito.sowieso.ui.fragment.FragmentBuilder;
+import pl.chiqvito.sowieso.utils.Boast;
 import retrofit.client.Response;
 
 public class ExpenseSubscriber {
@@ -58,7 +63,13 @@ public class ExpenseSubscriber {
                 client.setOnResultCallback(new BasicOnResultCallback<Boolean>() {
                     @Override
                     public void onResponseOk(Boolean status, Response r) {
-//TODO
+                        if (status) {
+                            expensesService.deleteAll();
+                            EventBus.getDefault().post(new SwitchFragmentEvent(FragmentBuilder.FragmentName.EXPENSE_LIST));
+                            Boast.showText(context, context.getString(R.string.msg_data_saved), Toast.LENGTH_SHORT);
+                        } else {
+                            Boast.showText(context, context.getString(R.string.msg_data_not_saved), Toast.LENGTH_SHORT);
+                        }
                     }
                 });
                 client.execute();

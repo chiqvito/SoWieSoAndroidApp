@@ -6,13 +6,14 @@ import android.util.Log;
 
 import de.greenrobot.event.EventBus;
 import pl.chiqvito.sowieso.Constants;
+import pl.chiqvito.sowieso.bus.events.SwitchFragmentEvent;
 import pl.chiqvito.sowieso.ui.activity.MainActivityCallback;
 
 public class BaseFragment extends Fragment implements FragmentWrapper {
 
     private static final String TAG = BaseFragment.class.getName();
 
-    protected NavigationDrawerFragment.NavigationDrawerCallbacks mCallbacks;
+    private NavigationDrawerFragment.NavigationDrawerCallbacks mCallbacks;
 
     protected FragmentBuilder.FragmentName fragmentName() {
         return FragmentBuilder.FragmentName.valueOf(getArguments().getString(Constants.FRAGMENT_NAME));
@@ -55,5 +56,11 @@ public class BaseFragment extends Fragment implements FragmentWrapper {
     @Override
     public void save() {
         Log.v(TAG, "save");
+    }
+
+    public void onEventMainThread(SwitchFragmentEvent event) {
+        Log.v(TAG, "event:" + event);
+        Fragment fragment = new FragmentBuilder(event.getFragmentName()).build();
+        mCallbacks.onNavigationDrawerItemSelected(fragment);
     }
 }

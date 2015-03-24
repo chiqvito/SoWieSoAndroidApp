@@ -2,7 +2,6 @@ package pl.chiqvito.sowieso.ui.fragment;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -27,6 +26,7 @@ import pl.chiqvito.sowieso.bus.events.CategoriesEvent;
 import pl.chiqvito.sowieso.bus.events.CategoryOperationEvent;
 import pl.chiqvito.sowieso.bus.events.ExpenseInfoEvent;
 import pl.chiqvito.sowieso.bus.events.ExpenseOperationEvent;
+import pl.chiqvito.sowieso.bus.events.SwitchFragmentEvent;
 import pl.chiqvito.sowieso.db.model.CategoryEntity;
 import pl.chiqvito.sowieso.db.model.ExpenseEntity;
 import pl.chiqvito.sowieso.ui.validator.InputValidator;
@@ -119,8 +119,7 @@ public class ExpenseFragment extends BaseFragment {
             }
             case ExpenseInfoEvent.SAVE: {
                 clear();
-                Fragment fragment = new FragmentBuilder(FragmentBuilder.FragmentName.EXPENSE_LIST).build();
-                mCallbacks.onNavigationDrawerItemSelected(fragment);
+                EventBus.getDefault().post(new SwitchFragmentEvent(FragmentBuilder.FragmentName.EXPENSE_LIST));
                 Toast.makeText(getActivity(), getString(R.string.msg_data_saved), Toast.LENGTH_SHORT);
                 break;
             }

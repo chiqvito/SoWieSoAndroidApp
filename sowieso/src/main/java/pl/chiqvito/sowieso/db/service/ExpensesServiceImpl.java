@@ -60,4 +60,10 @@ public class ExpensesServiceImpl implements ExpensesService {
         Log.v(TAG, "json data count: " + data.size());
         return data;
     }
+
+    @Override
+    public void deleteAll() {
+        int rows = dao.deleteAll();
+        Log.v(TAG, "deleted:" + rows);
+    }
 }
