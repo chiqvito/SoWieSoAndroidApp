@@ -49,9 +49,19 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            EventBus.getDefault().post(new CategoryOperationEvent(CategoryOperationEvent.DOWNLOAD, null));
-            return true;
+        switch (id) {
+            case R.id.action_load_configuration: {
+                EventBus.getDefault().post(new CategoryOperationEvent(CategoryOperationEvent.DOWNLOAD, null));
+                return true;
+            }
+            case R.id.action_save_on_server: {
+                //TODO
+                return true;
+            }
+            case R.id.action_login: {
+                //TODO
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }

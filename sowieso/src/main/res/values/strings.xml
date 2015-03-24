@@ -16,6 +16,9 @@
     <string name="action_refresh">Refresh</string>
     <string name="action_settings">Settings</string>
     <string name="action_save">Save</string>
+    <string name="action_login">Login</string>
+    <string name="action_load_configuration">Load configuration</string>
+    <string name="action_save_on_server">Save on server</string>
 
     <string name="msg_required_name">Name is required!</string>
     <string name="msg_required_amount">Amount is required!</string>
