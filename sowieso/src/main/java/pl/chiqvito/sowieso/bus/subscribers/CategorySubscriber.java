@@ -1,5 +1,6 @@
 package pl.chiqvito.sowieso.bus.subscribers;
 
+import android.content.Context;
 import android.util.Log;
 
 import java.util.List;
@@ -18,9 +19,11 @@ public class CategorySubscriber {
 
     private static final String TAG = CategorySubscriber.class.getName();
 
+    private final Context context;
     private final CategoriesService categoriesService;
 
-    public CategorySubscriber(CategoriesService categoriesService) {
+    public CategorySubscriber(Context context, CategoriesService categoriesService) {
+        this.context = context;
         this.categoriesService = categoriesService;
     }
 
@@ -50,7 +53,7 @@ public class CategorySubscriber {
         if (event.getOperation() != CategoryOperationEvent.DOWNLOAD)
             return;
 
-        CategoriesClient client = new CategoriesClient();
+        CategoriesClient client = new CategoriesClient(context);
         client.setOnResultCallback(new BasicOnResultCallback<List<CategoryDTO>>() {
             @Override
             public void onResponseOk(List<CategoryDTO> categoryDTOs, Response r) {

@@ -1,12 +1,14 @@
 package pl.chiqvito.sowieso.rest.client;
 
+import android.content.Context;
+
 import pl.chiqvito.sowieso.rest.ApiService;
 import retrofit.RestAdapter;
 
 public abstract class BaseApiClient<K> extends BaseClient<K> {
 
-    public BaseApiClient(String sessionID) {
-        super(sessionID, false);
+    public BaseApiClient(Context context, String sessionID) {
+        super(context, sessionID, false);
     }
 
     @Override

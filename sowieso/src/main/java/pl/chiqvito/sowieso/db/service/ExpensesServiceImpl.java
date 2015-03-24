@@ -2,11 +2,13 @@ package pl.chiqvito.sowieso.db.service;
 
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pl.chiqvito.sowieso.db.DbManager;
 import pl.chiqvito.sowieso.db.dao.ExpensesDao;
 import pl.chiqvito.sowieso.db.model.ExpenseEntity;
+import pl.chiqvito.sowieso.rest.dto.ExpenseDTO;
 
 public class ExpensesServiceImpl implements ExpensesService {
 
@@ -44,5 +46,18 @@ public class ExpensesServiceImpl implements ExpensesService {
     @Override
     public List<ExpenseEntity> getAllWithCategories() {
         return dao.getAllWithCategories();
+    }
+
+    @Override
+    public List<ExpenseDTO> getAllExpenseDTOs() {
+        List<ExpenseEntity> expenseEntities = dao.getAll();
+        List<ExpenseDTO> data = new ArrayList<ExpenseDTO>();
+        Log.v(TAG, "expenseEntities count: " + expenseEntities.size());
+        for (ExpenseEntity exp : expenseEntities) {
+            ExpenseDTO jExp = exp.toExpenseDTO();
+            data.add(jExp);
+        }
+        Log.v(TAG, "json data count: " + data.size());
+        return data;
     }
 }

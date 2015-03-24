@@ -17,7 +17,7 @@ public class SoWieSoApplication extends Application {
         super.onCreate();
         dbServices = new DataManagerImpl(this);
         EventBusConfigurator.configDefaultEventBus();
-        eventBusConfigurator = new EventBusConfigurator()
+        eventBusConfigurator = new EventBusConfigurator(this)
                 .dbServices(dbServices);
         eventBusConfigurator.register();
     }

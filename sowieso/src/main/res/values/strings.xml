@@ -28,4 +28,6 @@
     <string name="msg_fill_correct_form">Fill correct form!</string>
     <string name="msg_data_saved">Data was saved!</string>
     <string name="msg_data_not_saved">Can not save data!</string>
+    <string name="msg_forbidden">Forbidden, please login!</string>
+    <string name="msg_unauthorized">Unauthorized, please login!</string>
 </resources>

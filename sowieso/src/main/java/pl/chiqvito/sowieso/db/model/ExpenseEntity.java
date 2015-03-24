@@ -3,10 +3,14 @@ package pl.chiqvito.sowieso.db.model;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import pl.chiqvito.sowieso.rest.dto.CategoryDTO;
+import pl.chiqvito.sowieso.rest.dto.ExpenseDTO;
 
 public class ExpenseEntity {
 
@@ -17,6 +21,19 @@ public class ExpenseEntity {
     private String amount;
     private String info;
     private CategoryEntity category;
+
+    public ExpenseDTO toExpenseDTO() {
+        ExpenseDTO exp = new ExpenseDTO();
+        exp.setAmount(new BigDecimal(amount));
+        CategoryDTO cat = new CategoryDTO();
+        cat.setId(categoryId);
+        exp.setCategory(cat);
+        exp.setId(id);
+        exp.setInfo(info);
+        exp.setName("android-" + name);
+        exp.setOperationDate(getOperationDateDate());
+        return exp;
+    }
 
     public boolean isFilled() {
         if (id == null || id.longValue() == -1) {

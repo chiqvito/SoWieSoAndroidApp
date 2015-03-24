@@ -1,5 +1,7 @@
 package pl.chiqvito.sowieso.bus;
 
+import android.content.Context;
+
 import de.greenrobot.event.EventBus;
 import pl.chiqvito.sowieso.BuildConfig;
 import pl.chiqvito.sowieso.bus.subscribers.CategorySubscriber;
@@ -8,10 +10,15 @@ import pl.chiqvito.sowieso.db.DbServices;
 
 public class EventBusConfigurator {
 
+    private Context context;
     private DbServices dbServices;
 
     private ExpenseSubscriber expenseSubscriber;
     private CategorySubscriber categorySubscriber;
+
+    public EventBusConfigurator(Context context) {
+        this.context = context;
+    }
 
     public EventBusConfigurator dbServices(DbServices dbServices) {
         this.dbServices = dbServices;
@@ -19,8 +26,8 @@ public class EventBusConfigurator {
     }
 
     private void build() {
-        expenseSubscriber = new ExpenseSubscriber(dbServices.expensesService());
-        categorySubscriber = new CategorySubscriber(dbServices.categoriesService());
+        expenseSubscriber = new ExpenseSubscriber(context, dbServices.expensesService(), dbServices.propertiesService());
+        categorySubscriber = new CategorySubscriber(context, dbServices.categoriesService());
     }
 
     public void register() {
