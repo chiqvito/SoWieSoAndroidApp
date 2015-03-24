@@ -51,6 +51,16 @@ public class ExpenseSubscriber {
                 EventBus.getDefault().post(new ExpensesEvent(expenseEntities));
                 break;
             }
+            case ExpenseOperationEvent.EDIT: {
+                //TODO
+                break;
+            }
+            case ExpenseOperationEvent.REMOVE: {
+                expensesService.delete(event.getExpense());
+                List<ExpenseEntity> expenseEntities = expensesService.getAllWithCategories();
+                EventBus.getDefault().post(new ExpensesEvent(expenseEntities));
+                break;
+            }
         }
     }
 

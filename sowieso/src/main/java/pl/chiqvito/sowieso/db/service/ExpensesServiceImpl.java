@@ -66,4 +66,10 @@ public class ExpensesServiceImpl implements ExpensesService {
         int rows = dao.deleteAll();
         Log.v(TAG, "deleted:" + rows);
     }
+
+    @Override
+    public void delete(ExpenseEntity expense) {
+        int rows = dao.delete(expense);
+        Log.v(TAG, "deleted:" + rows);
+    }
 }

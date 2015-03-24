@@ -1,5 +1,7 @@
 package pl.chiqvito.sowieso.db.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -12,7 +14,17 @@ import java.util.Locale;
 import pl.chiqvito.sowieso.rest.dto.CategoryDTO;
 import pl.chiqvito.sowieso.rest.dto.ExpenseDTO;
 
-public class ExpenseEntity {
+public class ExpenseEntity implements Parcelable {
+
+    public static final Parcelable.Creator<ExpenseEntity> CREATOR = new Parcelable.Creator<ExpenseEntity>() {
+        public ExpenseEntity createFromParcel(Parcel in) {
+            return new ExpenseEntity(in);
+        }
+
+        public ExpenseEntity[] newArray(int size) {
+            return new ExpenseEntity[size];
+        }
+    };
 
     private Long id;
     private Long categoryId;
@@ -21,6 +33,39 @@ public class ExpenseEntity {
     private String amount;
     private String info;
     private CategoryEntity category;
+
+    public ExpenseEntity() {
+    }
+
+    private ExpenseEntity(Parcel in) {
+        readFromParcel(in);
+    }
+
+    private void readFromParcel(Parcel in) {
+        id = in.readLong();
+        categoryId = in.readLong();
+        name = in.readString();
+        operationDate = in.readString();
+        amount = in.readString();
+        info = in.readString();
+        category = in.readParcelable(CategoryEntity.class.getClassLoader());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id == null ? -1 : id);
+        dest.writeLong(categoryId == null ? -1 : categoryId);
+        dest.writeString(name == null ? "" : name);
+        dest.writeString(operationDate == null ? "" : operationDate);
+        dest.writeString(amount == null ? "" : amount);
+        dest.writeString(info == null ? "" : info);
+        dest.writeParcelable(category == null ? new CategoryEntity() : category, flags);
+    }
 
     public ExpenseDTO toExpenseDTO() {
         ExpenseDTO exp = new ExpenseDTO();

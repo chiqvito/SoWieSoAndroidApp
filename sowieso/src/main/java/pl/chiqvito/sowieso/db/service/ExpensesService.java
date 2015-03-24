@@ -15,4 +15,6 @@ public interface ExpensesService {
 
     void deleteAll();
 
+    void delete(ExpenseEntity expense);
+
 }

@@ -56,7 +56,7 @@ public class ExpensesFragment extends BaseFragment {
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new ExpenseAdapter() {
+        mAdapter = new ExpenseAdapter(getFragmentManager()) {
             @Override
             protected void initEmptyList() {
                 super.initEmptyList();

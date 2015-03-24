@@ -5,6 +5,7 @@
     <string name="title_expense_add">Add expense</string>
     <string name="title_expense_edit">Edit expense</string>
     <string name="title_login">Login</string>
+    <string name="title_dialog_manage_expense">Manage expense</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -36,4 +37,7 @@
     <string name="msg_forbidden">Forbidden, please login!</string>
     <string name="msg_unauthorized">Unauthorized, please login!</string>
     <string name="msg_can_not_login">Can not login. Set up username and password.</string>
+
+    <string name="manage_type_edit">Edit</string>
+    <string name="manage_type_remove">Remove</string>
 </resources>
