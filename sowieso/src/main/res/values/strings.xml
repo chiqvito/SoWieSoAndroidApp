@@ -4,6 +4,7 @@
     <string name="title_expense_list">Expenses</string>
     <string name="title_expense_add">Add expense</string>
     <string name="title_expense_edit">Edit expense</string>
+    <string name="title_login">Login</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -12,14 +13,18 @@
     <string name="label_date_pattern">yyyy-mm-dd</string>
     <string name="label_amount_pattern">0.0</string>
     <string name="label_description">Description</string>
+    <string name="label_login">Login</string>
+    <string name="label_password">Password</string>
 
     <string name="action_refresh">Refresh</string>
     <string name="action_settings">Settings</string>
     <string name="action_save">Save</string>
     <string name="action_login">Login</string>
+    <string name="action_cancel">Cancel</string>
     <string name="action_load_configuration">Load configuration</string>
     <string name="action_save_on_server">Save on server</string>
 
+    <string name="msg_working">working . . .</string>
     <string name="msg_required_name">Name is required!</string>
     <string name="msg_required_amount">Amount is required!</string>
     <string name="msg_required_date">Date is required!</string>
@@ -30,4 +35,5 @@
     <string name="msg_data_not_saved">Can not save data!</string>
     <string name="msg_forbidden">Forbidden, please login!</string>
     <string name="msg_unauthorized">Unauthorized, please login!</string>
+    <string name="msg_can_not_login">Can not login. Set up username and password.</string>
 </resources>

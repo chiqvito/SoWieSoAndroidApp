@@ -6,6 +6,7 @@ import de.greenrobot.event.EventBus;
 import pl.chiqvito.sowieso.BuildConfig;
 import pl.chiqvito.sowieso.bus.subscribers.CategorySubscriber;
 import pl.chiqvito.sowieso.bus.subscribers.ExpenseSubscriber;
+import pl.chiqvito.sowieso.bus.subscribers.UserSubscriber;
 import pl.chiqvito.sowieso.db.DbServices;
 
 public class EventBusConfigurator {
@@ -13,6 +14,7 @@ public class EventBusConfigurator {
     private Context context;
     private DbServices dbServices;
 
+    private UserSubscriber userSubscriber;
     private ExpenseSubscriber expenseSubscriber;
     private CategorySubscriber categorySubscriber;
 
@@ -26,17 +28,20 @@ public class EventBusConfigurator {
     }
 
     private void build() {
+        userSubscriber = new UserSubscriber(context, dbServices.propertiesService());
         expenseSubscriber = new ExpenseSubscriber(context, dbServices.expensesService(), dbServices.propertiesService());
         categorySubscriber = new CategorySubscriber(context, dbServices.categoriesService());
     }
 
     public void register() {
         build();
+        EventBus.getDefault().register(userSubscriber);
         EventBus.getDefault().register(expenseSubscriber);
         EventBus.getDefault().register(categorySubscriber);
     }
 
     public void unregister() {
+        EventBus.getDefault().unregister(userSubscriber);
         EventBus.getDefault().unregister(expenseSubscriber);
         EventBus.getDefault().unregister(categorySubscriber);
     }

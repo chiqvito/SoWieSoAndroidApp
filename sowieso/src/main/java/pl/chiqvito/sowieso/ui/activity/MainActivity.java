@@ -11,6 +11,7 @@ import de.greenrobot.event.EventBus;
 import pl.chiqvito.sowieso.R;
 import pl.chiqvito.sowieso.bus.events.CategoryOperationEvent;
 import pl.chiqvito.sowieso.bus.events.ExpenseOperationEvent;
+import pl.chiqvito.sowieso.ui.dialog.LoginDialog;
 import pl.chiqvito.sowieso.ui.fragment.FragmentBuilder;
 import pl.chiqvito.sowieso.ui.fragment.FragmentWrapper;
 import pl.chiqvito.sowieso.ui.fragment.NavigationDrawerFragment;
@@ -60,7 +61,8 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
                 return true;
             }
             case R.id.action_login: {
-                //TODO
+                LoginDialog dialog = LoginDialog.newInstance();
+                dialog.show(getSupportFragmentManager(), null);
                 return true;
             }
         }
