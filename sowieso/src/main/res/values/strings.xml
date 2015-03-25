@@ -6,6 +6,10 @@
     <string name="title_expense_edit">Edit expense</string>
     <string name="title_login">Login</string>
     <string name="title_dialog_manage_expense">Manage expense</string>
+    <string name="title_expense_report">Expense reports</string>
+    <string name="title_expense_report_year">Years report</string>
+    <string name="title_expense_report_yearmonth">Months report</string>
+    <string name="title_expense_report_categoryyearmonth">Categories report</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

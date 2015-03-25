@@ -27,11 +27,17 @@ public class NavigationDrawerAdapter extends BaseExpandableListAdapter {
         this.subItems = new SparseArray<ArrayList<NavigationItem>>();
 
         this.mainItems.put(0, new NavigationItem(FragmentBuilder.FragmentName.EXPENSE_LIST));
-
         ArrayList<NavigationItem> items = new ArrayList<NavigationItem>();
         items.add(new NavigationItem(FragmentBuilder.FragmentName.EXPENSE_ADD));
         items.add(new NavigationItem(FragmentBuilder.FragmentName.EXPENSE_LIST));
         this.subItems.put(0, items);
+
+        this.mainItems.put(1, new NavigationItem(FragmentBuilder.FragmentName.EXPENSE_REPORT));
+        items = new ArrayList<NavigationItem>();
+        items.add(new NavigationItem(FragmentBuilder.FragmentName.EXPENSE_REPORT_YEAR));
+        items.add(new NavigationItem(FragmentBuilder.FragmentName.EXPENSE_REPORT_YEAR_MONTH));
+        items.add(new NavigationItem(FragmentBuilder.FragmentName.EXPENSE_REPORT_YEAR_MONTH_CATEGORY));
+        this.subItems.put(1, items);
     }
 
     @Override
