@@ -10,10 +10,20 @@ android {
         versionCode 1
         versionName "1.0"
     }
+    signingConfigs {
+        release {
+            storeFile file("sws-release-key.jks")
+            storePassword "passwd"
+            keyAlias "SoWieSoAndroidKey"
+            keyPassword "passwd"
+        }
+    }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            zipAlignEnabled true
+            signingConfig signingConfigs.release
         }
     }
     productFlavors {
