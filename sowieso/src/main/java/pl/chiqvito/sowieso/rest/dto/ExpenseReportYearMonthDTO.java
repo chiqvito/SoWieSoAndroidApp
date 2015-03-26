@@ -4,6 +4,11 @@ public class ExpenseReportYearMonthDTO extends ExpenseReportYearDTO {
 
     private Integer month;
 
+    @Override
+    public String getDate() {
+        return getYear() + "-" + month;
+    }
+
     public Integer getMonth() {
         return month;
     }

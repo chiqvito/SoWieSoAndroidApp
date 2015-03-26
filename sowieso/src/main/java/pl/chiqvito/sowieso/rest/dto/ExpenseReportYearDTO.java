@@ -4,6 +4,11 @@ public class ExpenseReportYearDTO extends ExpenseReportDTO {
 
     private Integer year;
 
+    @Override
+    public String getDate() {
+        return String.valueOf(year);
+    }
+
     public Integer getYear() {
         return year;
     }

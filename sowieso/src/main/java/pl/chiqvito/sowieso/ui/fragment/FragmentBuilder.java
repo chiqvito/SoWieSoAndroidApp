@@ -59,6 +59,10 @@ public class FragmentBuilder {
                 return ExpenseFragment.newInstance(fn, (ExpenseEntity) parcelable);
             case EXPENSE_LIST:
                 return ExpensesFragment.newInstance(fn);
+            case EXPENSE_REPORT_YEAR:
+            case EXPENSE_REPORT_YEAR_MONTH:
+            case EXPENSE_REPORT_YEAR_MONTH_CATEGORY:
+                return ExpensesReportFragment.newInstance(fn);
         }
         throw new IllegalArgumentException("Unknown fragment for " + fn);
     }
