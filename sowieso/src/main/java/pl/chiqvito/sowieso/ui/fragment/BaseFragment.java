@@ -3,6 +3,8 @@ package pl.chiqvito.sowieso.ui.fragment;
 import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import de.greenrobot.event.EventBus;
 import pl.chiqvito.sowieso.Constants;
@@ -12,6 +14,8 @@ import pl.chiqvito.sowieso.ui.activity.MainActivityCallback;
 public class BaseFragment extends Fragment implements FragmentWrapper {
 
     private static final String TAG = BaseFragment.class.getName();
+
+    protected ProgressBar progressBar;
 
     private NavigationDrawerFragment.NavigationDrawerCallbacks mCallbacks;
 
@@ -63,5 +67,15 @@ public class BaseFragment extends Fragment implements FragmentWrapper {
         Log.v(TAG, "event:" + event);
         Fragment fragment = new FragmentBuilder(event.getFragmentName()).parcelable(event.getParcelable()).build();
         mCallbacks.onNavigationDrawerItemSelected(fragment);
+    }
+
+    protected void showProgress() {
+        if (progressBar != null)
+            progressBar.setVisibility(View.VISIBLE);
+    }
+
+    protected void hideProgress() {
+        if (progressBar != null)
+            progressBar.setVisibility(View.GONE);
     }
 }

@@ -2,7 +2,6 @@ package pl.chiqvito.sowieso.ui.model;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
@@ -43,11 +42,6 @@ public class ExpenseReportFilterModel extends BaseModel {
     @Override
     public int getViewType() {
         return ModelType.EXPENSE_REPORT_FILTER;
-    }
-
-    @Override
-    public Parcelable getParcelable() {
-        return null;
     }
 
     public int getYear() {

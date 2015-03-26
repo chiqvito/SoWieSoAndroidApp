@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,6 +66,7 @@ public class ExpensesReportFragment extends BaseFragment implements ExpenseRepor
     }
 
     public void load(int year, int month) {
+        showProgress();
         EventBus.getDefault().post(new ExpensesReportOperationEvent(fragmentName(), year, month));
     }
 
@@ -72,6 +74,7 @@ public class ExpensesReportFragment extends BaseFragment implements ExpenseRepor
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_expenses, container, false);
 
+        progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         mRecyclerView.setHasFixedSize(false);
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -112,6 +115,7 @@ public class ExpensesReportFragment extends BaseFragment implements ExpenseRepor
                 continue;
             }
         }
+        hideProgress();
         mAdapter.clear();
         mAdapter.load(ms);
     }

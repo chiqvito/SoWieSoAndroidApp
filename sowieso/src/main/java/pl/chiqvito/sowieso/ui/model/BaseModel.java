@@ -1,6 +1,5 @@
 package pl.chiqvito.sowieso.ui.model;
 
-import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -26,14 +25,5 @@ public abstract class BaseModel {
     }
 
     public abstract int getViewType();
-
-    public abstract Parcelable getParcelable();
-
-    @Override
-    public String toString() {
-        if (getParcelable() == null)
-            return super.toString();
-        return getParcelable().toString();
-    }
 
 }

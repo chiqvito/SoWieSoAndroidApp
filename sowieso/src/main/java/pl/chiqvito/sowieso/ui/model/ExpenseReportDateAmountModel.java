@@ -1,6 +1,5 @@
 package pl.chiqvito.sowieso.ui.model;
 
-import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
@@ -35,11 +34,6 @@ public class ExpenseReportDateAmountModel extends BaseModel {
     @Override
     public int getViewType() {
         return ModelType.EXPENSE_REPORT_DATE_AMOUNT;
-    }
-
-    @Override
-    public Parcelable getParcelable() {
-        return null;
     }
 
     private static class ViewHolder extends RecyclerView.ViewHolder {

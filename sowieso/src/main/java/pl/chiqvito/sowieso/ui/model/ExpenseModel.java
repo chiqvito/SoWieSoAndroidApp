@@ -1,6 +1,5 @@
 package pl.chiqvito.sowieso.ui.model;
 
-import android.os.Parcelable;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
@@ -39,11 +38,6 @@ public class ExpenseModel extends BaseModel {
     @Override
     public int getViewType() {
         return ModelType.EXPENSE;
-    }
-
-    @Override
-    public Parcelable getParcelable() {
-        return null;
     }
 
     private static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

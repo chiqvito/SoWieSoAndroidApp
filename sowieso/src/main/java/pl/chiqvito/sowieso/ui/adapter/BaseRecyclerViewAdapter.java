@@ -1,6 +1,5 @@
 package pl.chiqvito.sowieso.ui.adapter;
 
-import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.util.Log;
@@ -60,15 +59,6 @@ public abstract class BaseRecyclerViewAdapter extends RecyclerView.Adapter<Recyc
 
     public List<BaseModel> getItemsModel() {
         return mItems;
-    }
-
-    public List<Parcelable> getItemsParcelable() {
-        List<Parcelable> list = new ArrayList<Parcelable>();
-        for (BaseModel m : getItemsModel()) {
-            if (m.getParcelable() != null)
-                list.add(m.getParcelable());
-        }
-        return list;
     }
 
     public void clear() {

@@ -1,6 +1,5 @@
 package pl.chiqvito.sowieso.ui.model;
 
-import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
@@ -34,11 +33,6 @@ public class TitleModel extends BaseModel {
     @Override
     public int getViewType() {
         return ModelType.TITLE;
-    }
-
-    @Override
-    public Parcelable getParcelable() {
-        return null;
     }
 
     private static class ViewHolder extends RecyclerView.ViewHolder {
