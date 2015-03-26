@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -25,8 +24,9 @@ import pl.chiqvito.sowieso.ui.adapter.ExpenseReportAdapter;
 import pl.chiqvito.sowieso.ui.model.BaseModel;
 import pl.chiqvito.sowieso.ui.model.ExpenseReportDateAmountModel;
 import pl.chiqvito.sowieso.ui.model.ExpenseReportDateCategoryAmountModel;
+import pl.chiqvito.sowieso.ui.model.ExpenseReportFilterModel;
 
-public class ExpensesReportFragment extends BaseFragment {
+public class ExpensesReportFragment extends BaseFragment implements ExpenseReportFilterModel.FilterCallback {
 
     private static final String TAG = ExpensesReportFragment.class.getName();
 
@@ -34,8 +34,7 @@ public class ExpensesReportFragment extends BaseFragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private ExpenseReportAdapter mAdapter;
 
-    private int year;
-    private int month;
+    private ExpenseReportFilterModel filter;
 
     public static ExpensesReportFragment newInstance(FragmentBuilder.FragmentName fn) {
         ExpensesReportFragment fragment = new ExpensesReportFragment();
@@ -51,6 +50,21 @@ public class ExpensesReportFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
+        load(filter.getYear(), filter.getMonth());
+    }
+
+    @Override
+    public void filter(int year, int month) {
+        load(year, month);
+    }
+
+    @Override
+    public void refresh() {
+        super.refresh();
+        load(filter.getYear(), filter.getMonth());
+    }
+
+    public void load(int year, int month) {
         EventBus.getDefault().post(new ExpensesReportOperationEvent(fragmentName(), year, month));
     }
 
@@ -63,19 +77,21 @@ public class ExpensesReportFragment extends BaseFragment {
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new ExpenseReportAdapter();
+        filter = new ExpenseReportFilterModel(fragmentName(), this);
+
+        mAdapter = new ExpenseReportAdapter() {
+            @Override
+            protected void initEmptyList() {
+                super.initEmptyList();
+                if (FragmentBuilder.FragmentName.EXPENSE_REPORT_YEAR.equals(fragmentName()))
+                    return;
+                getItemsModel().add(filter);
+            }
+        };
 
         mRecyclerView.setAdapter(mAdapter);
 
-        setCurrentDateOnView();
-
         return rootView;
-    }
-
-    private void setCurrentDateOnView() {
-        Calendar c = Calendar.getInstance();
-        year = c.get(Calendar.YEAR);
-        month = c.get(Calendar.MONTH);
     }
 
     public void onEventMainThread(ExpensesReportEvent event) {

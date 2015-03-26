@@ -6,5 +6,6 @@ public interface ModelType {
     int EXPENSE = 1;
     int EXPENSE_REPORT_DATE_AMOUNT = 2;
     int EXPENSE_REPORT_DATE_CATEGORY_AMOUNT = 3;
+    int EXPENSE_REPORT_FILTER = 4;
 
 }

@@ -238,6 +238,9 @@ public class NavigationDrawerFragment extends Fragment {
         if (fragmentName == null)
             return false;
         switch (fragmentName) {
+            case EXPENSE_REPORT_YEAR:
+            case EXPENSE_REPORT_YEAR_MONTH:
+            case EXPENSE_REPORT_YEAR_MONTH_CATEGORY:
             case EXPENSE_LIST:
                 return true;
         }
