@@ -6,8 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 
 import java.util.Calendar;
 
@@ -58,7 +58,7 @@ public class ExpenseReportFilterModel extends BaseModel {
         private static int year;
         private static int month;
 
-        private EditText date;
+        private Button date;
 
         private ViewHolder(final View itemView) {
             super(itemView);
@@ -66,7 +66,7 @@ public class ExpenseReportFilterModel extends BaseModel {
             year = c.get(Calendar.YEAR);
             month = c.get(Calendar.MONTH);
 
-            date = (EditText) itemView.findViewById(R.id.edit_txt_date);
+            date = (Button) itemView.findViewById(R.id.edit_txt_date);
             date.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
