@@ -66,6 +66,7 @@ public class ExpensesReportFragment extends BaseFragment implements ExpenseRepor
     }
 
     public void load(int year, int month) {
+        ++month;
         showProgress();
         EventBus.getDefault().post(new ExpensesReportOperationEvent(fragmentName(), year, month));
     }
