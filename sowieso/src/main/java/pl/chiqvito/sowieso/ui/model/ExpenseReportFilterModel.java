@@ -55,8 +55,8 @@ public class ExpenseReportFilterModel extends BaseModel {
     private static class ViewHolder extends RecyclerView.ViewHolder {
 
         private FilterCallback callback;
-        private static int year;
-        private static int month;
+        private static int year = Calendar.getInstance().get(Calendar.YEAR);
+        private static int month = Calendar.getInstance().get(Calendar.MONTH);
 
         private Button date;
 

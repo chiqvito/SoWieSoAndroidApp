@@ -2,7 +2,7 @@ package pl.chiqvito.sowieso.bus.events;
 
 import pl.chiqvito.sowieso.db.model.ExpenseEntity;
 
-public class ExpenseOperationEvent {
+public class ExpenseOperationEvent extends Event {
 
     public final static int SAVE = 0;
     public final static int SAVE_ALL_ON_SERVER = 1;

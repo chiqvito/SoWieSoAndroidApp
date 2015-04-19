@@ -15,8 +15,6 @@ public class BaseFragment extends Fragment implements FragmentWrapper {
 
     private static final String TAG = BaseFragment.class.getName();
 
-    protected ProgressBar progressBar;
-
     private NavigationDrawerFragment.NavigationDrawerCallbacks mCallbacks;
 
     protected FragmentBuilder.FragmentName fragmentName() {
@@ -69,13 +67,4 @@ public class BaseFragment extends Fragment implements FragmentWrapper {
         mCallbacks.onNavigationDrawerItemSelected(fragment);
     }
 
-    protected void showProgress() {
-        if (progressBar != null)
-            progressBar.setVisibility(View.VISIBLE);
-    }
-
-    protected void hideProgress() {
-        if (progressBar != null)
-            progressBar.setVisibility(View.GONE);
-    }
 }

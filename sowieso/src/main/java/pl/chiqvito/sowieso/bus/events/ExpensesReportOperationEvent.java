@@ -2,7 +2,7 @@ package pl.chiqvito.sowieso.bus.events;
 
 import pl.chiqvito.sowieso.ui.fragment.FragmentBuilder;
 
-public class ExpensesReportOperationEvent {
+public class ExpensesReportOperationEvent extends Event {
 
     private FragmentBuilder.FragmentName fragmentName;
     private Integer year;

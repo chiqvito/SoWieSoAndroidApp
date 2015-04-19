@@ -17,18 +17,15 @@ import pl.chiqvito.sowieso.R;
 import pl.chiqvito.sowieso.bus.events.ExpenseOperationEvent;
 import pl.chiqvito.sowieso.bus.events.ExpensesEvent;
 import pl.chiqvito.sowieso.db.model.ExpenseEntity;
+import pl.chiqvito.sowieso.ui.adapter.BaseRecyclerViewAdapter;
 import pl.chiqvito.sowieso.ui.adapter.ExpenseAdapter;
 import pl.chiqvito.sowieso.ui.model.BaseModel;
 import pl.chiqvito.sowieso.ui.model.ExpenseModel;
 import pl.chiqvito.sowieso.ui.model.TitleModel;
 
-public class ExpensesFragment extends BaseFragment {
+public class ExpensesFragment extends BaseListFragment {
 
     public static final String TAG = ExpenseFragment.class.getName();
-
-    private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private ExpenseAdapter mAdapter;
 
     public static ExpensesFragment newInstance(FragmentBuilder.FragmentName fn) {
         ExpensesFragment fragment = new ExpensesFragment();
@@ -44,29 +41,18 @@ public class ExpensesFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().post(new ExpenseOperationEvent(ExpenseOperationEvent.GET_ALL_WITH_CATEGORY, null));
+        fetchData(new ExpenseOperationEvent(ExpenseOperationEvent.GET_ALL_WITH_CATEGORY, null));
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_expenses, container, false);
-
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
-        mRecyclerView.setHasFixedSize(false);
-        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
-        mAdapter = new ExpenseAdapter(getFragmentManager()) {
+    protected BaseRecyclerViewAdapter adapter() {
+        return new ExpenseAdapter(getFragmentManager()) {
             @Override
             protected void initEmptyList() {
                 super.initEmptyList();
                 getItemsModel().add(new TitleModel(getString(R.string.title_expense_list)));
             }
         };
-
-        mRecyclerView.setAdapter(mAdapter);
-
-        return rootView;
     }
 
     public void onEventMainThread(ExpensesEvent event) {
@@ -76,13 +62,12 @@ public class ExpensesFragment extends BaseFragment {
         for (ExpenseEntity ee : expenseEntities) {
             ms.add(new ExpenseModel(ee));
         }
-        mAdapter.clear();
-        mAdapter.load(ms);
+        load(ms);
     }
 
     @Override
     public void refresh() {
         super.refresh();
-        EventBus.getDefault().post(new ExpenseOperationEvent(ExpenseOperationEvent.GET_ALL_WITH_CATEGORY, null));
+        fetchData(new ExpenseOperationEvent(ExpenseOperationEvent.GET_ALL_WITH_CATEGORY, null));
     }
 }

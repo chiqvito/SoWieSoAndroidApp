@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -89,6 +90,9 @@ public class NavigationDrawerAdapter extends BaseExpandableListAdapter {
 
         NavigationItem item = (NavigationItem) getGroup(groupPosition);
         holder.text.setText(FragmentBuilder.title(parent.getContext(), item.getFragmentName()));
+
+        ExpandableListView mExpandableListView = (ExpandableListView) parent;
+        mExpandableListView.expandGroup(groupPosition);
 
         return convertView;
     }

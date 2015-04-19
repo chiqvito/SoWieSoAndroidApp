@@ -1,39 +1,31 @@
 package pl.chiqvito.sowieso.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import de.greenrobot.event.EventBus;
 import pl.chiqvito.sowieso.Constants;
-import pl.chiqvito.sowieso.R;
 import pl.chiqvito.sowieso.bus.events.ExpensesReportEvent;
 import pl.chiqvito.sowieso.bus.events.ExpensesReportOperationEvent;
 import pl.chiqvito.sowieso.rest.dto.ExpenseReportDTO;
 import pl.chiqvito.sowieso.rest.dto.ExpenseReportYearDTO;
 import pl.chiqvito.sowieso.rest.dto.ExpenseReportYearMonthCategoryDTO;
 import pl.chiqvito.sowieso.rest.dto.ExpenseReportYearMonthDTO;
+import pl.chiqvito.sowieso.ui.adapter.BaseRecyclerViewAdapter;
 import pl.chiqvito.sowieso.ui.adapter.ExpenseReportAdapter;
 import pl.chiqvito.sowieso.ui.model.BaseModel;
 import pl.chiqvito.sowieso.ui.model.ExpenseReportDateAmountModel;
 import pl.chiqvito.sowieso.ui.model.ExpenseReportDateCategoryAmountModel;
 import pl.chiqvito.sowieso.ui.model.ExpenseReportFilterModel;
 
-public class ExpensesReportFragment extends BaseFragment implements ExpenseReportFilterModel.FilterCallback {
+public class ExpensesReportFragment extends BaseListFragment implements ExpenseReportFilterModel.FilterCallback {
 
     private static final String TAG = ExpensesReportFragment.class.getName();
-
-    private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private ExpenseReportAdapter mAdapter;
 
     private ExpenseReportFilterModel filter;
 
@@ -67,23 +59,18 @@ public class ExpensesReportFragment extends BaseFragment implements ExpenseRepor
 
     public void load(int year, int month) {
         ++month;
-        showProgress();
-        EventBus.getDefault().post(new ExpensesReportOperationEvent(fragmentName(), year, month));
+        fetchData(new ExpensesReportOperationEvent(fragmentName(), year, month));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_expenses, container, false);
-
-        progressBar = (ProgressBar) rootView.findViewById(R.id.progress_bar);
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
-        mRecyclerView.setHasFixedSize(false);
-        mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-
         filter = new ExpenseReportFilterModel(fragmentName(), this);
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
 
-        mAdapter = new ExpenseReportAdapter() {
+    @Override
+    protected BaseRecyclerViewAdapter adapter() {
+        return new ExpenseReportAdapter() {
             @Override
             protected void initEmptyList() {
                 super.initEmptyList();
@@ -92,10 +79,6 @@ public class ExpensesReportFragment extends BaseFragment implements ExpenseRepor
                 getItemsModel().add(filter);
             }
         };
-
-        mRecyclerView.setAdapter(mAdapter);
-
-        return rootView;
     }
 
     public void onEventMainThread(ExpensesReportEvent event) {
@@ -116,9 +99,7 @@ public class ExpensesReportFragment extends BaseFragment implements ExpenseRepor
                 continue;
             }
         }
-        hideProgress();
-        mAdapter.clear();
-        mAdapter.load(ms);
+        load(ms);
     }
 
 }
