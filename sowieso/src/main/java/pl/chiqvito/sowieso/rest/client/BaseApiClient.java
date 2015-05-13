@@ -7,6 +7,10 @@ import retrofit.RestAdapter;
 
 public abstract class BaseApiClient<K> extends BaseClient<K> {
 
+    public enum Operation {
+        CREATE, REMOVE, UPDATE;
+    }
+
     public BaseApiClient(Context context, String sessionID) {
         super(context, sessionID, false);
     }
