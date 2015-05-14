@@ -34,7 +34,7 @@ public class CarConsumptionModel extends BaseModel {
 
     @Override
     public int getViewType() {
-        return ModelType.CAR_CONSUMPTION;
+        return ModelType.CAR_CONSUMPTION.getValue();
     }
 
     private static class ViewHolder extends RecyclerView.ViewHolder {

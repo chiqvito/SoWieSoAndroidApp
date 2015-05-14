@@ -37,7 +37,7 @@ public class ExpenseModel extends BaseModel {
 
     @Override
     public int getViewType() {
-        return ModelType.EXPENSE;
+        return ModelType.EXPENSE.getValue();
     }
 
     private static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

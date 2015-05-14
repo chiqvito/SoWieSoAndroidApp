@@ -33,7 +33,7 @@ public class ExpenseReportDateAmountModel extends BaseModel {
 
     @Override
     public int getViewType() {
-        return ModelType.EXPENSE_REPORT_DATE_AMOUNT;
+        return ModelType.EXPENSE_REPORT_DATE_AMOUNT.getValue();
     }
 
     private static class ViewHolder extends RecyclerView.ViewHolder {

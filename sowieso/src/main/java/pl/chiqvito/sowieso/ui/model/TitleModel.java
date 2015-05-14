@@ -32,7 +32,7 @@ public class TitleModel extends BaseModel {
 
     @Override
     public int getViewType() {
-        return ModelType.TITLE;
+        return ModelType.TITLE.getValue();
     }
 
     private static class ViewHolder extends RecyclerView.ViewHolder {

@@ -41,7 +41,7 @@ public class ExpenseReportFilterModel extends BaseModel {
 
     @Override
     public int getViewType() {
-        return ModelType.EXPENSE_REPORT_FILTER;
+        return ModelType.EXPENSE_REPORT_FILTER.getValue();
     }
 
     public int getYear() {

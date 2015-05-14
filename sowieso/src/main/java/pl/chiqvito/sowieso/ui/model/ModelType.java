@@ -1,12 +1,21 @@
 package pl.chiqvito.sowieso.ui.model;
 
-public interface ModelType {
+public enum ModelType {
 
-    int TITLE = 0;
-    int EXPENSE = 1;
-    int EXPENSE_REPORT_DATE_AMOUNT = 2;
-    int EXPENSE_REPORT_DATE_CATEGORY_AMOUNT = 3;
-    int EXPENSE_REPORT_FILTER = 4;
-    int CAR_CONSUMPTION = 5;
+    TITLE(0),
+    EXPENSE(1),
+    EXPENSE_REPORT_DATE_AMOUNT(2),
+    EXPENSE_REPORT_DATE_CATEGORY_AMOUNT(3),
+    EXPENSE_REPORT_FILTER(4),
+    CAR_CONSUMPTION(5);
 
+    private int value;
+
+    private ModelType(int value) {
+        this.value = value;
+    }
+
+    public int getValue() {
+        return value;
+    }
 }
