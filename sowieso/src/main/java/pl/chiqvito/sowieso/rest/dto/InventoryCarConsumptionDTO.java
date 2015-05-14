@@ -1,7 +1,9 @@
 package pl.chiqvito.sowieso.rest.dto;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import pl.chiqvito.sowieso.rest.dto.enums.CurrencyEnum;
 import pl.chiqvito.sowieso.rest.dto.enums.PetrolStationEnum;
@@ -36,6 +38,11 @@ public class InventoryCarConsumptionDTO {
 
     public Date getRefuelDate() {
         return refuelDate;
+    }
+
+    public String getRefuelDateString() {
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
+        return sf.format(getRefuelDate());
     }
 
     public void setRefuelDate(Date refuelDate) {

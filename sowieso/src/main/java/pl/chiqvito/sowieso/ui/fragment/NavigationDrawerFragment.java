@@ -242,6 +242,7 @@ public class NavigationDrawerFragment extends Fragment {
             case EXPENSE_REPORT_YEAR_MONTH:
             case EXPENSE_REPORT_YEAR_MONTH_CATEGORY:
             case EXPENSE_LIST:
+            case INVENTORY_CAR_CONSUMPTION_LIST:
                 return true;
         }
         return false;

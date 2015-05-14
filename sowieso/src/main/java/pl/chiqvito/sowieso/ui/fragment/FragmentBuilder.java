@@ -20,6 +20,8 @@ public class FragmentBuilder {
         EXPENSE_REPORT_YEAR,
         EXPENSE_REPORT_YEAR_MONTH,
         EXPENSE_REPORT_YEAR_MONTH_CATEGORY,
+        INVENTORY,
+        INVENTORY_CAR_CONSUMPTION_LIST,
     }
 
     public FragmentBuilder(FragmentName fn) {
@@ -47,6 +49,10 @@ public class FragmentBuilder {
                 return ctx.getString(R.string.title_expense_report_yearmonth);
             case EXPENSE_REPORT_YEAR_MONTH_CATEGORY:
                 return ctx.getString(R.string.title_expense_report_categoryyearmonth);
+            case INVENTORY:
+                return ctx.getString(R.string.title_inventory);
+            case INVENTORY_CAR_CONSUMPTION_LIST:
+                return ctx.getString(R.string.title_inventory_car_consumption_list);
         }
         throw new IllegalArgumentException("Unknown title for " + fn);
     }
@@ -63,6 +69,8 @@ public class FragmentBuilder {
             case EXPENSE_REPORT_YEAR_MONTH:
             case EXPENSE_REPORT_YEAR_MONTH_CATEGORY:
                 return ExpensesReportFragment.newInstance(fn);
+            case INVENTORY_CAR_CONSUMPTION_LIST:
+                return CarConsumptionsFragment.newInstance(fn);
         }
         throw new IllegalArgumentException("Unknown fragment for " + fn);
     }

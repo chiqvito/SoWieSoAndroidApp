@@ -18,10 +18,7 @@
             android:layout_height="wrap_content"
             android:hint="@string/label_name"
             android:lines="1"
-            android:singleLine="true">
-
-            <requestFocus />
-        </EditText>
+            android:singleLine="true" />
 
         <Spinner
             android:id="@+id/exp_category"

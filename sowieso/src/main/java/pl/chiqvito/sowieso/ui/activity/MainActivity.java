@@ -44,8 +44,10 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     @Override
     public void onSectionAttached(FragmentBuilder.FragmentName fn) {
-        mNavigationDrawerFragment.setTitle(FragmentBuilder.title(this, fn));
-        mNavigationDrawerFragment.setFragmentName(fn);
+        if (mNavigationDrawerFragment != null) {
+            mNavigationDrawerFragment.setTitle(FragmentBuilder.title(this, fn));
+            mNavigationDrawerFragment.setFragmentName(fn);
+        }
     }
 
     @Override

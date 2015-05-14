@@ -7,5 +7,6 @@ public interface ModelType {
     int EXPENSE_REPORT_DATE_AMOUNT = 2;
     int EXPENSE_REPORT_DATE_CATEGORY_AMOUNT = 3;
     int EXPENSE_REPORT_FILTER = 4;
+    int CAR_CONSUMPTION = 5;
 
 }
