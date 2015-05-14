@@ -14,6 +14,7 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import pl.chiqvito.sowieso.R;
+import pl.chiqvito.sowieso.bus.events.Event;
 import pl.chiqvito.sowieso.bus.events.ExpenseOperationEvent;
 import pl.chiqvito.sowieso.db.model.ExpenseEntity;
 import pl.chiqvito.sowieso.ui.adapter.CommonOptionAdapter;
@@ -59,12 +60,12 @@ public class ExpenseDialog extends DialogFragment {
                 switch (item.getType()) {
                     case EDIT: {
                         dialog.dismiss();
-                        EventBus.getDefault().post(new ExpenseOperationEvent(ExpenseOperationEvent.EDIT, expense()));
+                        EventBus.getDefault().post(new ExpenseOperationEvent(Event.Operation.EDIT, expense()));
                         break;
                     }
                     case REMOVE: {
                         dialog.dismiss();
-                        EventBus.getDefault().post(new ExpenseOperationEvent(ExpenseOperationEvent.REMOVE, expense()));
+                        EventBus.getDefault().post(new ExpenseOperationEvent(Event.Operation.REMOVE, expense()));
                         break;
                     }
                 }

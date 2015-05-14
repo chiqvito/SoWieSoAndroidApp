@@ -8,6 +8,7 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 import pl.chiqvito.sowieso.bus.events.CategoriesEvent;
 import pl.chiqvito.sowieso.bus.events.CategoryOperationEvent;
+import pl.chiqvito.sowieso.bus.events.Event;
 import pl.chiqvito.sowieso.db.model.CategoryEntity;
 import pl.chiqvito.sowieso.db.service.CategoriesService;
 import pl.chiqvito.sowieso.rest.client.BasicOnResultCallback;
@@ -30,15 +31,15 @@ public class CategorySubscriber {
     public void onEventBackgroundThread(CategoryOperationEvent event) {
         Log.v(TAG, "event:" + event);
         switch (event.getOperation()) {
-            case CategoryOperationEvent.SELECT: {
+            case SELECT: {
                 categoriesService.select(event.getCategory());
                 break;
             }
-            case CategoryOperationEvent.GET_ALL: {
+            case GET_ALL: {
                 List<CategoryEntity> categories = categoriesService.categories();
                 Log.v(TAG, "categories:" + categories);
                 if (categories.isEmpty()) {
-                    EventBus.getDefault().post(new CategoryOperationEvent(CategoryOperationEvent.DOWNLOAD, null));
+                    EventBus.getDefault().post(new CategoryOperationEvent(Event.Operation.DOWNLOAD, null));
                 } else {
                     EventBus.getDefault().post(new CategoriesEvent(categories));
                 }
@@ -50,7 +51,7 @@ public class CategorySubscriber {
     public void onEventAsync(CategoryOperationEvent event) {
         Log.v(TAG, "event:" + event);
 
-        if (event.getOperation() != CategoryOperationEvent.DOWNLOAD)
+        if (event.getOperation() != Event.Operation.DOWNLOAD)
             return;
 
         CategoriesClient client = new CategoriesClient(context);

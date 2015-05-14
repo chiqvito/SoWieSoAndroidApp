@@ -2,21 +2,17 @@ package pl.chiqvito.sowieso.bus.events;
 
 import pl.chiqvito.sowieso.db.model.CategoryEntity;
 
-public class CategoryOperationEvent {
+public class CategoryOperationEvent extends Event {
 
-    public final static int SELECT = 0;
-    public final static int GET_ALL = 1;
-    public final static int DOWNLOAD = 2;
-
-    private final int operation;
+    private final Operation operation;
     private final CategoryEntity category;
 
-    public CategoryOperationEvent(int operation, CategoryEntity category) {
+    public CategoryOperationEvent(Operation operation, CategoryEntity category) {
         this.operation = operation;
         this.category = category;
     }
 
-    public int getOperation() {
+    public Operation getOperation() {
         return operation;
     }
 

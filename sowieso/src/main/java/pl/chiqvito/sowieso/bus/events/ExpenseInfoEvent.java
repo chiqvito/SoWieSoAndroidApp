@@ -1,17 +1,14 @@
 package pl.chiqvito.sowieso.bus.events;
 
-public class ExpenseInfoEvent {
+public class ExpenseInfoEvent extends Event {
 
-    public final static int SAVE = 0;
-    public final static int FAIL = 1;
+    private Status status;
 
-    private int status;
-
-    public ExpenseInfoEvent(int status) {
+    public ExpenseInfoEvent(Status status) {
         this.status = status;
     }
 
-    public int getStatus() {
+    public Status getStatus() {
         return status;
     }
 

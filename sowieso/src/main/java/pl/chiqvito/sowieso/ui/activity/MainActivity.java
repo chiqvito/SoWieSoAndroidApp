@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import de.greenrobot.event.EventBus;
 import pl.chiqvito.sowieso.R;
 import pl.chiqvito.sowieso.bus.events.CategoryOperationEvent;
+import pl.chiqvito.sowieso.bus.events.Event;
 import pl.chiqvito.sowieso.bus.events.ExpenseOperationEvent;
 import pl.chiqvito.sowieso.ui.dialog.LoginDialog;
 import pl.chiqvito.sowieso.ui.fragment.FragmentBuilder;
@@ -55,11 +56,11 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         int id = item.getItemId();
         switch (id) {
             case R.id.action_load_configuration: {
-                EventBus.getDefault().post(new CategoryOperationEvent(CategoryOperationEvent.DOWNLOAD, null));
+                EventBus.getDefault().post(new CategoryOperationEvent(Event.Operation.DOWNLOAD, null));
                 return true;
             }
             case R.id.action_save_on_server: {
-                EventBus.getDefault().post(new ExpenseOperationEvent(ExpenseOperationEvent.SAVE_ALL_ON_SERVER, null));
+                EventBus.getDefault().post(new ExpenseOperationEvent(Event.Operation.SAVE_ALL_ON_SERVER, null));
                 return true;
             }
             case R.id.action_login: {

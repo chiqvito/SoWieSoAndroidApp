@@ -9,6 +9,7 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import pl.chiqvito.sowieso.R;
+import pl.chiqvito.sowieso.bus.events.Event;
 import pl.chiqvito.sowieso.bus.events.ExpenseInfoEvent;
 import pl.chiqvito.sowieso.bus.events.ExpenseOperationEvent;
 import pl.chiqvito.sowieso.bus.events.ExpensesEvent;
@@ -50,23 +51,23 @@ public class ExpenseSubscriber {
     public void onEventBackgroundThread(ExpenseOperationEvent event) {
         Log.v(TAG, "event:" + event);
         switch (event.getOperation()) {
-            case ExpenseOperationEvent.SAVE: {
+            case SAVE: {
                 if (expensesService.save(event.getExpense()))
-                    EventBus.getDefault().post(new ExpenseInfoEvent(ExpenseInfoEvent.SAVE));
+                    EventBus.getDefault().post(new ExpenseInfoEvent(Event.Status.SAVE));
                 else
-                    EventBus.getDefault().post(new ExpenseInfoEvent(ExpenseInfoEvent.FAIL));
+                    EventBus.getDefault().post(new ExpenseInfoEvent(Event.Status.FAIL));
                 break;
             }
-            case ExpenseOperationEvent.GET_ALL_WITH_CATEGORY: {
+            case GET_ALL_WITH_CATEGORY: {
                 List<ExpenseEntity> expenseEntities = expensesService.getAllWithCategories();
                 EventBus.getDefault().post(new ExpensesEvent(expenseEntities));
                 break;
             }
-            case ExpenseOperationEvent.EDIT: {
+            case EDIT: {
                 EventBus.getDefault().post(new SwitchFragmentEvent(FragmentBuilder.FragmentName.EXPENSE_EDIT, event.getExpense()));
                 break;
             }
-            case ExpenseOperationEvent.REMOVE: {
+            case REMOVE: {
                 expensesService.delete(event.getExpense());
                 List<ExpenseEntity> expenseEntities = expensesService.getAllWithCategories();
                 EventBus.getDefault().post(new ExpensesEvent(expenseEntities));
@@ -78,7 +79,7 @@ public class ExpenseSubscriber {
     public void onEventAsync(ExpenseOperationEvent event) {
         Log.v(TAG, "event:" + event);
         switch (event.getOperation()) {
-            case ExpenseOperationEvent.SAVE_ALL_ON_SERVER: {
+            case SAVE_ALL_ON_SERVER: {
                 List<ExpenseDTO> expenses = expensesService.getAllExpenseDTOs();
                 ExpenseSaveClient client = new ExpenseSaveClient(context, propertiesService.getSessionId(), expenses);
                 client.setOnResultCallback(new BasicOnResultCallback<Boolean>() {

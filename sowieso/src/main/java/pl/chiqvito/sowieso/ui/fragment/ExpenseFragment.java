@@ -24,6 +24,7 @@ import pl.chiqvito.sowieso.Constants;
 import pl.chiqvito.sowieso.R;
 import pl.chiqvito.sowieso.bus.events.CategoriesEvent;
 import pl.chiqvito.sowieso.bus.events.CategoryOperationEvent;
+import pl.chiqvito.sowieso.bus.events.Event;
 import pl.chiqvito.sowieso.bus.events.ExpenseInfoEvent;
 import pl.chiqvito.sowieso.bus.events.ExpenseOperationEvent;
 import pl.chiqvito.sowieso.bus.events.SwitchFragmentEvent;
@@ -71,7 +72,7 @@ public class ExpenseFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        EventBus.getDefault().post(new CategoryOperationEvent(CategoryOperationEvent.GET_ALL, null));
+        EventBus.getDefault().post(new CategoryOperationEvent(Event.Operation.GET_ALL, null));
     }
 
     @Override
@@ -111,7 +112,7 @@ public class ExpenseFragment extends BaseFragment {
         if (validate()) {
             ExpenseEntity exp = collectData();
             Log.v(TAG, "save: " + exp);
-            EventBus.getDefault().post(new ExpenseOperationEvent(ExpenseOperationEvent.SAVE, exp));
+            EventBus.getDefault().post(new ExpenseOperationEvent(Event.Operation.SAVE, exp));
         } else {
             enable();
             Boast.showText(getActivity(), getString(R.string.msg_fill_correct_form), Toast.LENGTH_SHORT);
@@ -122,11 +123,11 @@ public class ExpenseFragment extends BaseFragment {
         Log.v(TAG, "event:" + event);
         enable();
         switch (event.getStatus()) {
-            case ExpenseInfoEvent.FAIL: {
+            case FAIL: {
                 Boast.showText(getActivity(), getString(R.string.msg_data_not_saved), Toast.LENGTH_SHORT);
                 break;
             }
-            case ExpenseInfoEvent.SAVE: {
+            case SAVE: {
                 clear();
                 EventBus.getDefault().post(new SwitchFragmentEvent(FragmentBuilder.FragmentName.EXPENSE_LIST));
                 Toast.makeText(getActivity(), getString(R.string.msg_data_saved), Toast.LENGTH_SHORT);
@@ -293,7 +294,7 @@ public class ExpenseFragment extends BaseFragment {
                 if (myAdap != null) {
                     CategoryEntity cat = myAdap.getItem(position);
                     if (cat != null) {
-                        EventBus.getDefault().post(new CategoryOperationEvent(CategoryOperationEvent.SELECT, cat));
+                        EventBus.getDefault().post(new CategoryOperationEvent(Event.Operation.SELECT, cat));
                     }
                 }
 

@@ -14,6 +14,7 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 import pl.chiqvito.sowieso.Constants;
 import pl.chiqvito.sowieso.R;
+import pl.chiqvito.sowieso.bus.events.Event;
 import pl.chiqvito.sowieso.bus.events.ExpenseOperationEvent;
 import pl.chiqvito.sowieso.bus.events.ExpensesEvent;
 import pl.chiqvito.sowieso.db.model.ExpenseEntity;
@@ -41,7 +42,7 @@ public class ExpensesFragment extends BaseListFragment {
     @Override
     public void onStart() {
         super.onStart();
-        fetchData(new ExpenseOperationEvent(ExpenseOperationEvent.GET_ALL_WITH_CATEGORY, null));
+        fetchData(new ExpenseOperationEvent(Event.Operation.GET_ALL_WITH_CATEGORY, null));
     }
 
     @Override
@@ -68,6 +69,6 @@ public class ExpensesFragment extends BaseListFragment {
     @Override
     public void refresh() {
         super.refresh();
-        fetchData(new ExpenseOperationEvent(ExpenseOperationEvent.GET_ALL_WITH_CATEGORY, null));
+        fetchData(new ExpenseOperationEvent(Event.Operation.GET_ALL_WITH_CATEGORY, null));
     }
 }

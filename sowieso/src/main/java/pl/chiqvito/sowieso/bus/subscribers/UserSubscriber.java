@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import de.greenrobot.event.EventBus;
+import pl.chiqvito.sowieso.bus.events.Event;
 import pl.chiqvito.sowieso.bus.events.LoginEvent;
 import pl.chiqvito.sowieso.bus.events.LoginInfoEvent;
 import pl.chiqvito.sowieso.db.service.PropertiesService;
@@ -32,13 +33,13 @@ public class UserSubscriber {
             @Override
             public void onResponseOk(String sid, Response r) {
                 propertiesService.saveSessionId(sid);
-                EventBus.getDefault().post(new LoginInfoEvent(LoginInfoEvent.LOGIN));
+                EventBus.getDefault().post(new LoginInfoEvent(Event.Status.LOGIN));
             }
 
             @Override
             public void onFail(RetrofitError error) {
                 super.onFail(error);
-                EventBus.getDefault().post(new LoginInfoEvent(LoginInfoEvent.FAIL));
+                EventBus.getDefault().post(new LoginInfoEvent(Event.Status.FAIL));
             }
         });
         client.execute();

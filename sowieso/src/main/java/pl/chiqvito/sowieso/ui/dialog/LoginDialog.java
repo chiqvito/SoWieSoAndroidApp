@@ -102,11 +102,11 @@ public class LoginDialog extends DialogFragment {
         Log.v(TAG, "event:" + event);
         progressDialog.dismiss();
         switch (event.getStatus()) {
-            case LoginInfoEvent.LOGIN: {
+            case LOGIN: {
                 dismiss();
                 break;
             }
-            case LoginInfoEvent.FAIL: {
+            case FAIL: {
                 Boast.showText(getActivity(), getString(R.string.msg_can_not_login), Toast.LENGTH_SHORT);
                 break;
             }

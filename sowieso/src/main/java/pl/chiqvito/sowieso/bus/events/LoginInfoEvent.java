@@ -1,17 +1,14 @@
 package pl.chiqvito.sowieso.bus.events;
 
-public class LoginInfoEvent {
+public class LoginInfoEvent extends Event {
 
-    public final static int LOGIN = 0;
-    public final static int FAIL = 1;
+    private Status status;
 
-    private int status;
-
-    public LoginInfoEvent(int status) {
+    public LoginInfoEvent(Status status) {
         this.status = status;
     }
 
-    public int getStatus() {
+    public Status getStatus() {
         return status;
     }
 
