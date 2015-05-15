@@ -42,6 +42,7 @@ public class NavigationDrawerAdapter extends BaseExpandableListAdapter {
 
         this.mainItems.put(2, new NavigationItem(FragmentBuilder.FragmentName.INVENTORY));
         items = new ArrayList<NavigationItem>();
+        items.add(new NavigationItem(FragmentBuilder.FragmentName.INVENTORY_CAR_CONSUMPTION_ADD));
         items.add(new NavigationItem(FragmentBuilder.FragmentName.INVENTORY_CAR_CONSUMPTION_LIST));
         this.subItems.put(2, items);
     }

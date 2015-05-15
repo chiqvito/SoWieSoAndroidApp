@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 
 import pl.chiqvito.sowieso.R;
 import pl.chiqvito.sowieso.db.model.ExpenseEntity;
+import pl.chiqvito.sowieso.rest.dto.InventoryCarConsumptionDTO;
 
 public class FragmentBuilder {
 
@@ -22,6 +23,8 @@ public class FragmentBuilder {
         EXPENSE_REPORT_YEAR_MONTH_CATEGORY,
         INVENTORY,
         INVENTORY_CAR_CONSUMPTION_LIST,
+        INVENTORY_CAR_CONSUMPTION_ADD,
+        INVENTORY_CAR_CONSUMPTION_EDIT,
     }
 
     public FragmentBuilder(FragmentName fn) {
@@ -53,6 +56,10 @@ public class FragmentBuilder {
                 return ctx.getString(R.string.title_inventory);
             case INVENTORY_CAR_CONSUMPTION_LIST:
                 return ctx.getString(R.string.title_inventory_car_consumption_list);
+            case INVENTORY_CAR_CONSUMPTION_ADD:
+                return ctx.getString(R.string.title_inventory_car_consumption_add);
+            case INVENTORY_CAR_CONSUMPTION_EDIT:
+                return ctx.getString(R.string.title_inventory_car_consumption_edit);
         }
         throw new IllegalArgumentException("Unknown title for " + fn);
     }
@@ -71,6 +78,10 @@ public class FragmentBuilder {
                 return ExpensesReportFragment.newInstance(fn);
             case INVENTORY_CAR_CONSUMPTION_LIST:
                 return CarConsumptionsFragment.newInstance(fn);
+            case INVENTORY_CAR_CONSUMPTION_ADD:
+                return CarConsumptionFragment.newInstance(fn);
+            case INVENTORY_CAR_CONSUMPTION_EDIT:
+                return CarConsumptionFragment.newInstance(fn, (InventoryCarConsumptionDTO) parcelable);
         }
         throw new IllegalArgumentException("Unknown fragment for " + fn);
     }

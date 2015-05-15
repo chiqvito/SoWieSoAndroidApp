@@ -1,5 +1,8 @@
 package pl.chiqvito.sowieso.rest.dto;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -8,7 +11,18 @@ import java.util.Locale;
 import pl.chiqvito.sowieso.rest.dto.enums.CurrencyEnum;
 import pl.chiqvito.sowieso.rest.dto.enums.PetrolStationEnum;
 
-public class InventoryCarConsumptionDTO {
+public class InventoryCarConsumptionDTO implements Parcelable {
+
+    public static final Parcelable.Creator<InventoryCarConsumptionDTO> CREATOR = new Parcelable.Creator<InventoryCarConsumptionDTO>() {
+        public InventoryCarConsumptionDTO createFromParcel(Parcel in) {
+            return new InventoryCarConsumptionDTO(in);
+        }
+
+        public InventoryCarConsumptionDTO[] newArray(int size) {
+            return new InventoryCarConsumptionDTO[size];
+        }
+    };
+
     private Long id;
     private InventoryCarDTO car;
     private Date refuelDate;
@@ -19,6 +33,42 @@ public class InventoryCarConsumptionDTO {
     private PetrolStationEnum petrolStation;
     private BigDecimal totalCost;
     private BigDecimal combustion;
+
+    private InventoryCarConsumptionDTO(Parcel in) {
+        readFromParcel(in);
+    }
+
+    private void readFromParcel(Parcel in) {
+        id = (Long) in.readValue(Long.class.getClassLoader());
+        car = in.readParcelable(InventoryCarDTO.class.getClassLoader());
+        refuelDate = (Date) in.readValue(Date.class.getClassLoader());
+        refuelAmount = (BigDecimal) in.readValue(BigDecimal.class.getClassLoader());
+        distance = (BigDecimal) in.readValue(BigDecimal.class.getClassLoader());
+        price = (BigDecimal) in.readValue(BigDecimal.class.getClassLoader());
+        currency = in.readParcelable(CurrencyEnum.class.getClassLoader());
+        petrolStation = in.readParcelable(PetrolStationEnum.class.getClassLoader());
+        totalCost = (BigDecimal) in.readValue(BigDecimal.class.getClassLoader());
+        combustion = (BigDecimal) in.readValue(BigDecimal.class.getClassLoader());
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeValue(id);
+        dest.writeParcelable(car, flags);
+        dest.writeValue(refuelDate);
+        dest.writeValue(refuelAmount);
+        dest.writeValue(distance);
+        dest.writeValue(price);
+        dest.writeParcelable(currency, flags);
+        dest.writeParcelable(petrolStation, flags);
+        dest.writeValue(totalCost);
+        dest.writeValue(combustion);
+    }
 
     public Long getId() {
         return id;
