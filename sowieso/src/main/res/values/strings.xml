@@ -12,6 +12,8 @@
     <string name="title_expense_report_categoryyearmonth">Categories report</string>
     <string name="title_inventory">Inventory</string>
     <string name="title_inventory_car_consumption_list">Car consumption</string>
+    <string name="title_inventory_car_consumption_add">Add consumption</string>
+    <string name="title_inventory_car_consumption_edit">Edit consumption</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

@@ -20,6 +20,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
             db.execSQL(DBConstatants.DB_CREATE_PROPERTIES);
             db.execSQL(DBConstatants.DB_CREATE_BG_CATEGORIES);
             db.execSQL(DBConstatants.DB_CREATE_BG_EXPENSES);
+            db.execSQL(DBConstatants.DB_CREATE_I_CARS);
         } catch (SQLException e) {
             Log.e(TAG, e.getMessage(), e);
         }
@@ -35,6 +36,7 @@ public class DBOpenHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + DBConstatants.DB_TABLE_PROPERTIES);
         db.execSQL("DROP TABLE IF EXISTS " + DBConstatants.DB_TABLE_BG_EXPENSES);
         db.execSQL("DROP TABLE IF EXISTS " + DBConstatants.DB_TABLE_BG_CATEGORIES);
+        db.execSQL("DROP TABLE IF EXISTS " + DBConstatants.DB_TABLE_I_CARS);
         onCreate(db);
     }
 

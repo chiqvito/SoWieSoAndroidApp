@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.SystemClock;
 import android.util.Log;
 
+import pl.chiqvito.sowieso.db.service.CarService;
+import pl.chiqvito.sowieso.db.service.CarServiceImpl;
 import pl.chiqvito.sowieso.db.service.CategoriesService;
 import pl.chiqvito.sowieso.db.service.CategoriesServiceImpl;
 import pl.chiqvito.sowieso.db.service.ExpensesService;
@@ -19,6 +21,7 @@ public class DataManagerImpl implements DbServices, DbManager {
     private PropertiesService propertiesService;
     private CategoriesService categoriesService;
     private ExpensesService expensesService;
+    private CarService carService;
 
     private final DBOpenHelper dbOpenHelper;
     private SQLiteDatabase db;
@@ -29,6 +32,7 @@ public class DataManagerImpl implements DbServices, DbManager {
         propertiesService = new PropertiesServiceImpl(this);
         categoriesService = new CategoriesServiceImpl(this);
         expensesService = new ExpensesServiceImpl(this);
+        carService = new CarServiceImpl(this);
     }
 
     @Override
@@ -74,5 +78,10 @@ public class DataManagerImpl implements DbServices, DbManager {
     @Override
     public ExpensesService expensesService() {
         return expensesService;
+    }
+
+    @Override
+    public CarService carService() {
+        return carService;
     }
 }

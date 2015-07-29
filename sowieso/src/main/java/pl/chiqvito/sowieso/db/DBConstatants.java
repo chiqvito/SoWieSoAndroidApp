@@ -2,7 +2,7 @@ package pl.chiqvito.sowieso.db;
 
 public interface DBConstatants {
 
-    int DB_VERSION = 6;
+    int DB_VERSION = 7;
     String DB_NAME = "sowieso_db";
 
     String DB_TABLE_PROPERTIES = "properties";
@@ -56,5 +56,19 @@ public interface DBConstatants {
             DB_TABLE_BG_EXPENSES_A__OPERATIONDATE,
             DB_TABLE_BG_EXPENSES_A__AMOUNT,
             DB_TABLE_BG_EXPENSES_A__INFO};
+
+    String DB_TABLE_I_CARS = "i_cars";
+    String DB_TABLE_I_CARS_A__ID = "_id";
+    String DB_TABLE_I_CARS_A__NAME = "name";
+    String DB_TABLE_I_CARS_A__SELECTED = "selected";
+    String DB_CREATE_I_CARS = "CREATE TABLE " + DB_TABLE_I_CARS + " ("
+            + DB_TABLE_I_CARS_A__ID + " INTEGER PRIMARY KEY, "
+            + DB_TABLE_I_CARS_A__NAME + " TEXT NOT NULL, "
+            + DB_TABLE_I_CARS_A__SELECTED + " INTEGER NOT NULL DEFAULT 0);";
+    String DB_TABLE_CARS_COUNT = "SELECT count(*) FROM " + DB_TABLE_I_CARS;
+    String[] DB_TABLE_I_CARS_COLS = new String[]{
+            DB_TABLE_I_CARS_A__ID,
+            DB_TABLE_I_CARS_A__NAME,
+            DB_TABLE_I_CARS_A__SELECTED};
 
 }
