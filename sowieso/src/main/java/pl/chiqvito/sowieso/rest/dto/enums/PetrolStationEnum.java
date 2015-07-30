@@ -20,11 +20,7 @@ public enum PetrolStationEnum implements Parcelable {
             return new PetrolStationEnum[size];
         }
     };
-
-    public String toString() {
-        return name().toLowerCase();
-    }
-
+    
     @Override
     public int describeContents() {
         return 0;

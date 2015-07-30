@@ -17,7 +17,7 @@ import pl.chiqvito.sowieso.R;
 import pl.chiqvito.sowieso.bus.events.Event;
 import pl.chiqvito.sowieso.bus.events.ExpenseOperationEvent;
 import pl.chiqvito.sowieso.db.model.ExpenseEntity;
-import pl.chiqvito.sowieso.ui.adapter.CommonOptionAdapter;
+import pl.chiqvito.sowieso.ui.adapter.OptionManageAdapter;
 import pl.chiqvito.sowieso.ui.model.OptionItem;
 import pl.chiqvito.sowieso.ui.model.enums.ManageType;
 
@@ -40,7 +40,7 @@ public class ExpenseDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        final CommonOptionAdapter<OptionItem<ManageType>> adapter = new CommonOptionAdapter<OptionItem<ManageType>>(getActivity(), R.layout.row_layout_manage) {
+        final OptionManageAdapter<ManageType> adapter = new OptionManageAdapter<ManageType>(getActivity()) {
             @Override
             protected String getTitle(Context context, OptionItem<ManageType> item) {
                 return context.getString(item.getType().resIdString());
@@ -76,7 +76,7 @@ public class ExpenseDialog extends DialogFragment {
         return dialog;
     }
 
-    private void fill(CommonOptionAdapter adapter) {
+    private void fill(OptionManageAdapter adapter) {
         List<OptionItem<ManageType>> list = new ArrayList<OptionItem<ManageType>>();
         for (ManageType option : ManageType.values()) {
             try {

@@ -20,7 +20,10 @@
 
     <string name="label_name">Name</string>
     <string name="label_date_pattern">yyyy-mm-dd</string>
-    <string name="label_amount_pattern">0.0</string>
+    <string name="label_amount_pattern">0.00 [PLN]</string>
+    <string name="label_refuel_amount_pattern">0.00 [l]</string>
+    <string name="label_distance_pattern">0.00 [m]</string>
+    <string name="label_price_pattern">0.00 [PLN]</string>
     <string name="label_description">Description</string>
     <string name="label_login">Login</string>
     <string name="label_password">Password</string>
@@ -37,8 +40,13 @@
     <string name="msg_required_name">Name is required!</string>
     <string name="msg_required_amount">Amount is required!</string>
     <string name="msg_required_date">Date is required!</string>
+    <string name="msg_required_distance">Distance is required!</string>
+    <string name="msg_required_price">Price is required!</string>
+    <string name="msg_required_refuel_amount">Refuel amount is required!</string>
     <string name="msg_wrong_date_format">Date wrong format!</string>
     <string name="msg_category_not_selected">Category is not selected.</string>
+    <string name="msg_petrol_station_not_selected">Petrol station is not selected.</string>
+    <string name="msg_car_not_selected">Car is not selected.</string>
     <string name="msg_fill_correct_form">Fill correct form!</string>
     <string name="msg_data_saved">Data was saved!</string>
     <string name="msg_data_not_saved">Can not save data!</string>

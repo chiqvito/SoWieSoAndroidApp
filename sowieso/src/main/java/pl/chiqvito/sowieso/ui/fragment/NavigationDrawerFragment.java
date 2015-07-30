@@ -254,6 +254,8 @@ public class NavigationDrawerFragment extends Fragment {
         switch (fragmentName) {
             case EXPENSE_ADD:
             case EXPENSE_EDIT:
+            case INVENTORY_CAR_CONSUMPTION_ADD:
+            case INVENTORY_CAR_CONSUMPTION_EDIT:
                 return true;
         }
         return false;

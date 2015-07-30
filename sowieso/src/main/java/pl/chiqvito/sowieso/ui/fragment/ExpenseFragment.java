@@ -30,10 +30,13 @@ import pl.chiqvito.sowieso.bus.events.ExpenseOperationEvent;
 import pl.chiqvito.sowieso.bus.events.SwitchFragmentEvent;
 import pl.chiqvito.sowieso.db.model.CategoryEntity;
 import pl.chiqvito.sowieso.db.model.ExpenseEntity;
+import pl.chiqvito.sowieso.ui.adapter.OptionSpinnerAdapter;
+import pl.chiqvito.sowieso.ui.model.OptionItem;
 import pl.chiqvito.sowieso.ui.validator.InputValidator;
 import pl.chiqvito.sowieso.ui.validator.SpinnerValidator;
 import pl.chiqvito.sowieso.ui.validator.TextValidator;
 import pl.chiqvito.sowieso.utils.Boast;
+import pl.chiqvito.sowieso.utils.DateUtil;
 
 public class ExpenseFragment extends BaseFragment {
 
@@ -93,7 +96,7 @@ public class ExpenseFragment extends BaseFragment {
                 month = selectedMonth;
                 day = selectedDay;
                 // set selected date into textview
-                holder.txtDate.setText(dateFormat(year, month, day));
+                holder.txtDate.setText(DateUtil.dateFormat(year, month, day));
                 holder.txtDate.setError(null);
             }
         }, year, month, day);
@@ -130,7 +133,7 @@ public class ExpenseFragment extends BaseFragment {
             case SAVE: {
                 clear();
                 EventBus.getDefault().post(new SwitchFragmentEvent(FragmentBuilder.FragmentName.EXPENSE_LIST));
-                Toast.makeText(getActivity(), getString(R.string.msg_data_saved), Toast.LENGTH_SHORT);
+                Boast.showText(getActivity(), getString(R.string.msg_data_saved), Toast.LENGTH_SHORT);
                 break;
             }
         }
@@ -138,12 +141,13 @@ public class ExpenseFragment extends BaseFragment {
 
     public void onEventMainThread(CategoriesEvent event) {
         Log.v(TAG, "event:" + event);
-        ArrayAdapter<CategoryEntity> dataAdapter = new ArrayAdapter<CategoryEntity>(getActivity(), android.R.layout.simple_spinner_item, event.getCategories());
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        OptionSpinnerAdapter<CategoryEntity> dataAdapter = new OptionSpinnerAdapter<CategoryEntity>(getActivity());
+        dataAdapter.loadData(event.getCategories());
+
         int position = 0;
         for (int i = 0; i < dataAdapter.getCount(); i++) {
-            CategoryEntity cat = dataAdapter.getItem(i);
-            if (cat != null && cat.getIsSelected()) {
+            OptionItem<CategoryEntity> cat = dataAdapter.getItem(i);
+            if (cat != null && cat.getType().getIsSelected()) {
                 position = i;
                 break;
             }
@@ -153,7 +157,7 @@ public class ExpenseFragment extends BaseFragment {
 
         ExpenseEntity expense = expense();
         if (expense != null) {
-            position = dataAdapter.getPosition(expense.getCategory());
+            position = dataAdapter.getPosition(new OptionItem<CategoryEntity>(expense.getCategory()));
             holder.spinnerCategory.setSelection(position);
             holder.txtAmount.setText(expense.getAmount());
             holder.txtDate.setText(expense.getOperationDate());
@@ -259,7 +263,7 @@ public class ExpenseFragment extends BaseFragment {
             public boolean validate(Spinner spinner) {
                 Object obj = spinner.getSelectedItem();
                 if (obj == null) {
-                    Toast.makeText(getActivity(), getString(R.string.msg_category_not_selected), Toast.LENGTH_SHORT).show();
+                    Boast.showText(getActivity(), getString(R.string.msg_category_not_selected), Toast.LENGTH_SHORT);
                     return false;
                 }
                 return true;
@@ -316,16 +320,6 @@ public class ExpenseFragment extends BaseFragment {
         year = c.get(Calendar.YEAR);
         month = c.get(Calendar.MONTH);
         day = c.get(Calendar.DAY_OF_MONTH);
-    }
-
-    private String dateFormat(int year, int month, int day) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(year);
-        sb.append("-");
-        sb.append(month + 1);
-        sb.append("-");
-        sb.append(day);
-        return sb.toString();
     }
 
     private static class Holder {
