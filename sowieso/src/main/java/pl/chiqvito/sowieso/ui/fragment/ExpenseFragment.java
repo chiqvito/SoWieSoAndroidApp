@@ -199,9 +199,9 @@ public class ExpenseFragment extends BaseFragment {
         if (expense != null) {
             exp.setId(expense.getId());
         }
-        CategoryEntity cat = (CategoryEntity) holder.spinnerCategory.getSelectedItem();
+        OptionItem<CategoryEntity> cat = (OptionItem<CategoryEntity>) holder.spinnerCategory.getSelectedItem();
         if (cat != null) {
-            Long catId = cat.getId();
+            Long catId = cat.getType().getId();
             exp.setCategoryId(catId);
         } else {
             exp.setCategoryId(-1L);
@@ -294,11 +294,11 @@ public class ExpenseFragment extends BaseFragment {
             public void onItemSelected(AdapterView<?> parent, View v, int position, long id) {
 
                 @SuppressWarnings("unchecked")
-                ArrayAdapter<CategoryEntity> myAdap = (ArrayAdapter<CategoryEntity>) holder.spinnerCategory.getAdapter();
+                ArrayAdapter<OptionItem<CategoryEntity>> myAdap = (ArrayAdapter<OptionItem<CategoryEntity>>) holder.spinnerCategory.getAdapter();
                 if (myAdap != null) {
-                    CategoryEntity cat = myAdap.getItem(position);
+                    OptionItem<CategoryEntity> cat = myAdap.getItem(position);
                     if (cat != null) {
-                        EventBus.getDefault().post(new CategoryOperationEvent(Event.Operation.SELECT, cat));
+                        EventBus.getDefault().post(new CategoryOperationEvent(Event.Operation.SELECT, cat.getType()));
                     }
                 }
 

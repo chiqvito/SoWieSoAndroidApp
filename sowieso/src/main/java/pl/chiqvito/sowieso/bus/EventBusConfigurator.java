@@ -5,6 +5,7 @@ import android.content.Context;
 import de.greenrobot.event.EventBus;
 import pl.chiqvito.sowieso.BuildConfig;
 import pl.chiqvito.sowieso.bus.subscribers.CarConsumptionSubscriber;
+import pl.chiqvito.sowieso.bus.subscribers.CarSubscriber;
 import pl.chiqvito.sowieso.bus.subscribers.CategorySubscriber;
 import pl.chiqvito.sowieso.bus.subscribers.ExpenseSubscriber;
 import pl.chiqvito.sowieso.bus.subscribers.UserSubscriber;
@@ -19,6 +20,7 @@ public class EventBusConfigurator {
     private ExpenseSubscriber expenseSubscriber;
     private CategorySubscriber categorySubscriber;
     private CarConsumptionSubscriber carConsumptionSubscriber;
+    private CarSubscriber carSubscriber;
 
     public EventBusConfigurator(Context context) {
         this.context = context;
@@ -34,6 +36,7 @@ public class EventBusConfigurator {
         expenseSubscriber = new ExpenseSubscriber(context, dbServices.expensesService(), dbServices.propertiesService());
         categorySubscriber = new CategorySubscriber(context, dbServices.categoriesService());
         carConsumptionSubscriber = new CarConsumptionSubscriber(context, dbServices.propertiesService());
+        carSubscriber = new CarSubscriber(context, dbServices.propertiesService(), dbServices.carService());
     }
 
     public void register() {
@@ -42,6 +45,7 @@ public class EventBusConfigurator {
         EventBus.getDefault().register(expenseSubscriber);
         EventBus.getDefault().register(categorySubscriber);
         EventBus.getDefault().register(carConsumptionSubscriber);
+        EventBus.getDefault().register(carSubscriber);
     }
 
     public void unregister() {
@@ -49,6 +53,7 @@ public class EventBusConfigurator {
         EventBus.getDefault().unregister(expenseSubscriber);
         EventBus.getDefault().unregister(categorySubscriber);
         EventBus.getDefault().unregister(carConsumptionSubscriber);
+        EventBus.getDefault().unregister(carSubscriber);
     }
 
     public static void configDefaultEventBus() {

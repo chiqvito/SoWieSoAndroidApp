@@ -1,5 +1,6 @@
 package pl.chiqvito.sowieso.bus.events;
 
+import pl.chiqvito.sowieso.Constants;
 import pl.chiqvito.sowieso.rest.dto.InventoryCarConsumptionDTO;
 
 public class CarConsumptionOperationEvent extends Event {
@@ -19,7 +20,7 @@ public class CarConsumptionOperationEvent extends Event {
     }
 
     public CarConsumptionOperationEvent(Operation operation, InventoryCarConsumptionDTO dto) {
-        this(operation, -1, dto);
+        this(operation, Constants.ERROR_PAGE, dto);
     }
 
     public Operation getOperation() {

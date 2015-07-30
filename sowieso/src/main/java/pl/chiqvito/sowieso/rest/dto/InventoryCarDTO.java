@@ -25,6 +25,9 @@ public class InventoryCarDTO implements Parcelable {
     @SerializedName("name")
     private String name;
 
+    public InventoryCarDTO() {
+    }
+
     private InventoryCarDTO(Parcel in) {
         readFromParcel(in);
     }

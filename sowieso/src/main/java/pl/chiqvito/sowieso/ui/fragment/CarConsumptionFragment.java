@@ -18,11 +18,17 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import pl.chiqvito.sowieso.Constants;
 import pl.chiqvito.sowieso.R;
+import pl.chiqvito.sowieso.bus.events.CarOperationEvent;
+import pl.chiqvito.sowieso.bus.events.CarsEvent;
+import pl.chiqvito.sowieso.bus.events.Event;
+import pl.chiqvito.sowieso.db.model.CarEntity;
 import pl.chiqvito.sowieso.rest.dto.InventoryCarConsumptionDTO;
 import pl.chiqvito.sowieso.rest.dto.enums.PetrolStationEnum;
 import pl.chiqvito.sowieso.ui.adapter.OptionSpinnerAdapter;
+import pl.chiqvito.sowieso.ui.model.OptionItem;
 import pl.chiqvito.sowieso.ui.validator.InputValidator;
 import pl.chiqvito.sowieso.ui.validator.SpinnerValidator;
 import pl.chiqvito.sowieso.ui.validator.TextValidator;
@@ -65,7 +71,7 @@ public class CarConsumptionFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-//        EventBus.getDefault().post(new CategoryOperationEvent(Event.Operation.GET_ALL, null)); TODO
+        EventBus.getDefault().post(new CarOperationEvent(Event.Operation.GET_ALL, null));
     }
 
     @Override
@@ -114,6 +120,43 @@ public class CarConsumptionFragment extends BaseFragment {
         } else {
             enable();
             Boast.showText(getActivity(), getString(R.string.msg_fill_correct_form), Toast.LENGTH_SHORT);
+        }
+    }
+
+    public void onEventMainThread(CarsEvent event) {
+        Log.v(TAG, "event:" + event);
+        OptionSpinnerAdapter<CarEntity> dataAdapter = new OptionSpinnerAdapter<CarEntity>(getActivity());
+        dataAdapter.loadData(event.getCars());
+
+        int position = 0;
+        for (int i = 0; i < dataAdapter.getCount(); i++) {
+            OptionItem<CarEntity> cat = dataAdapter.getItem(i);
+            if (cat != null && cat.getType().getIsSelected()) {
+                position = i;
+                break;
+            }
+        }
+        holder.spinnerCar.setAdapter(dataAdapter);
+        holder.spinnerCar.setSelection(position);
+
+        InventoryCarConsumptionDTO dto = dto();
+        if (dto != null) {
+            position = dataAdapter.getPosition(new OptionItem<CarEntity>(dto.getCar().toCarEntity()));
+            holder.spinnerCar.setSelection(position);
+            holder.txtRefuelAmount.setText(dto.getRefuelAmount().toString());
+            holder.txtRefuelDate.setText(dto.getRefuelDateString());
+            holder.txtDistance.setText(dto.getDistance().toString());
+            holder.txtPrice.setText(dto.getPrice().toString());
+
+            position = 0;
+            for (int i = 0; i < holder.spinnerPetrolStation.getAdapter().getCount(); i++) {
+                OptionItem<CarEntity> cat = (OptionItem<CarEntity>) holder.spinnerPetrolStation.getAdapter().getItem(i);
+                if (cat != null && cat.getType().getIsSelected()) {
+                    position = i;
+                    break;
+                }
+            }
+            holder.spinnerPetrolStation.setSelection(position);
         }
     }
 

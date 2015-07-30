@@ -8,7 +8,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 
 import de.greenrobot.event.EventBus;
+import pl.chiqvito.sowieso.Constants;
 import pl.chiqvito.sowieso.R;
+import pl.chiqvito.sowieso.bus.events.CarOperationEvent;
 import pl.chiqvito.sowieso.bus.events.CategoryOperationEvent;
 import pl.chiqvito.sowieso.bus.events.Event;
 import pl.chiqvito.sowieso.bus.events.ExpenseOperationEvent;
@@ -57,6 +59,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         switch (id) {
             case R.id.action_load_configuration: {
                 EventBus.getDefault().post(new CategoryOperationEvent(Event.Operation.DOWNLOAD, null));
+                EventBus.getDefault().post(new CarOperationEvent(Event.Operation.DOWNLOAD, Constants.FIRST_PAGE));
                 return true;
             }
             case R.id.action_save_on_server: {

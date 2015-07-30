@@ -3,6 +3,8 @@ package pl.chiqvito.sowieso.db.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import pl.chiqvito.sowieso.rest.dto.InventoryCarDTO;
+
 public class CarEntity implements Parcelable {
 
     public static final Parcelable.Creator<CarEntity> CREATOR = new Parcelable.Creator<CarEntity>() {
@@ -43,6 +45,13 @@ public class CarEntity implements Parcelable {
         dest.writeValue(id);
         dest.writeValue(name);
         dest.writeValue(isSelected);
+    }
+
+    public InventoryCarDTO toCarDTO() {
+        InventoryCarDTO dto = new InventoryCarDTO();
+        dto.setName(getName());
+        dto.setId(getId());
+        return dto;
     }
 
     public Long getId() {
