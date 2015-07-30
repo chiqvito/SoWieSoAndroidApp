@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -21,9 +22,12 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 import pl.chiqvito.sowieso.Constants;
 import pl.chiqvito.sowieso.R;
+import pl.chiqvito.sowieso.bus.events.CarConsumptionInfoEvent;
+import pl.chiqvito.sowieso.bus.events.CarConsumptionOperationEvent;
 import pl.chiqvito.sowieso.bus.events.CarOperationEvent;
 import pl.chiqvito.sowieso.bus.events.CarsEvent;
 import pl.chiqvito.sowieso.bus.events.Event;
+import pl.chiqvito.sowieso.bus.events.SwitchFragmentEvent;
 import pl.chiqvito.sowieso.db.model.CarEntity;
 import pl.chiqvito.sowieso.rest.dto.InventoryCarConsumptionDTO;
 import pl.chiqvito.sowieso.rest.dto.enums.PetrolStationEnum;
@@ -114,12 +118,29 @@ public class CarConsumptionFragment extends BaseFragment {
         Log.d(TAG, "save");
         disable();
         if (validate()) {
-//            ExpenseEntity exp = collectData(); TODO
-//            Log.v(TAG, "save: " + exp);
-//            EventBus.getDefault().post(new ExpenseOperationEvent(Event.Operation.SAVE, exp)); ++ TODO
+            InventoryCarConsumptionDTO dto = collectData();
+            Log.v(TAG, "save: " + dto);
+            EventBus.getDefault().post(new CarConsumptionOperationEvent(Event.Operation.SAVE, dto));
         } else {
             enable();
             Boast.showText(getActivity(), getString(R.string.msg_fill_correct_form), Toast.LENGTH_SHORT);
+        }
+    }
+
+    public void onEventMainThread(CarConsumptionInfoEvent event) {
+        Log.v(TAG, "event:" + event);
+        enable();
+        switch (event.getStatus()) {
+            case FAIL: {
+                Boast.showText(getActivity(), getString(R.string.msg_data_not_saved), Toast.LENGTH_SHORT);
+                break;
+            }
+            case SAVE: {
+                clear();
+                EventBus.getDefault().post(new SwitchFragmentEvent(FragmentBuilder.FragmentName.INVENTORY_CAR_CONSUMPTION_LIST));
+                Boast.showText(getActivity(), getString(R.string.msg_data_saved), Toast.LENGTH_SHORT);
+                break;
+            }
         }
     }
 
@@ -187,6 +208,27 @@ public class CarConsumptionFragment extends BaseFragment {
         holder.txtPrice.setEnabled(false);
         holder.spinnerCar.setEnabled(false);
         holder.spinnerPetrolStation.setEnabled(false);
+    }
+
+    private InventoryCarConsumptionDTO collectData() {
+        InventoryCarConsumptionDTO dto = new InventoryCarConsumptionDTO();
+        InventoryCarConsumptionDTO oldDto = dto();
+        if (oldDto != null) {
+            dto.setId(oldDto.getId());
+        }
+        OptionItem<CarEntity> car = (OptionItem<CarEntity>) holder.spinnerCar.getSelectedItem();
+        if (car != null) {
+            dto.setCar(car.getType().toCarDTO());
+        }
+        OptionItem<PetrolStationEnum> petrol = (OptionItem<PetrolStationEnum>) holder.spinnerPetrolStation.getSelectedItem();
+        if (petrol != null) {
+            dto.setPetrolStation(petrol.getType());
+        }
+        dto.setDistance(new BigDecimal(holder.txtDistance.getText().toString()));
+        dto.setPrice(new BigDecimal(holder.txtPrice.getText().toString()));
+        dto.setRefuelAmount(new BigDecimal(holder.txtRefuelAmount.getText().toString()));
+        dto.setRefuelDate(DateUtil.date(holder.txtRefuelDate.getText().toString()));
+        return dto;
     }
 
     private boolean validate() {

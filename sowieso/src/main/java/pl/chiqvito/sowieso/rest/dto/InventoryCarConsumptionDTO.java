@@ -4,12 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import pl.chiqvito.sowieso.rest.dto.enums.CurrencyEnum;
 import pl.chiqvito.sowieso.rest.dto.enums.PetrolStationEnum;
+import pl.chiqvito.sowieso.utils.DateUtil;
 
 public class InventoryCarConsumptionDTO implements Parcelable {
 
@@ -33,6 +32,9 @@ public class InventoryCarConsumptionDTO implements Parcelable {
     private PetrolStationEnum petrolStation;
     private BigDecimal totalCost;
     private BigDecimal combustion;
+
+    public InventoryCarConsumptionDTO() {
+    }
 
     private InventoryCarConsumptionDTO(Parcel in) {
         readFromParcel(in);
@@ -91,8 +93,7 @@ public class InventoryCarConsumptionDTO implements Parcelable {
     }
 
     public String getRefuelDateString() {
-        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
-        return sf.format(getRefuelDate());
+        return DateUtil.date(getRefuelDate());
     }
 
     public void setRefuelDate(Date refuelDate) {

@@ -8,10 +8,14 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import pl.chiqvito.sowieso.Constants;
+import pl.chiqvito.sowieso.bus.events.CarConsumptionInfoEvent;
 import pl.chiqvito.sowieso.bus.events.CarConsumptionOperationEvent;
 import pl.chiqvito.sowieso.bus.events.CarConsumptionsEvent;
+import pl.chiqvito.sowieso.bus.events.Event;
 import pl.chiqvito.sowieso.db.service.PropertiesService;
+import pl.chiqvito.sowieso.rest.client.BaseApiClient;
 import pl.chiqvito.sowieso.rest.client.BasicOnResultCallback;
+import pl.chiqvito.sowieso.rest.client.InventoryCarConsumptionCRUDClient;
 import pl.chiqvito.sowieso.rest.client.InventoryCarConsumptionsClient;
 import pl.chiqvito.sowieso.rest.dto.InventoryCarConsumptionDTO;
 import retrofit.RetrofitError;
@@ -36,7 +40,31 @@ public class CarConsumptionSubscriber {
                 getAll(event.getPage());
                 break;
             }
+            case SAVE: {
+                InventoryCarConsumptionDTO dto = event.getDto();
+                if (dto.getId() == null) {
+                    crud(dto, BaseApiClient.Operation.CREATE);
+                } else {
+                    crud(dto, BaseApiClient.Operation.UPDATE);
+                }
+                break;
+            }
         }
+    }
+
+    private void crud(InventoryCarConsumptionDTO dto, final BaseApiClient.Operation operation) {
+        InventoryCarConsumptionCRUDClient client = new InventoryCarConsumptionCRUDClient(context, propertiesService.getSessionId(), operation, dto);
+        client.setOnResultCallback(new BasicOnResultCallback<Boolean>() {
+            @Override
+            public void onResponseOk(Boolean status, Response r) {
+                if (status) {
+                    EventBus.getDefault().post(new CarConsumptionInfoEvent(Event.Status.SAVE));
+                } else {
+                    EventBus.getDefault().post(new CarConsumptionInfoEvent(Event.Status.FAIL));
+                }
+            }
+        });
+        client.execute();
     }
 
     private void getAll(final int page) {

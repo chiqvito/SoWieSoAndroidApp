@@ -3,16 +3,13 @@ package pl.chiqvito.sowieso.db.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
-import android.util.Log;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import pl.chiqvito.sowieso.rest.dto.CategoryDTO;
 import pl.chiqvito.sowieso.rest.dto.ExpenseDTO;
+import pl.chiqvito.sowieso.utils.DateUtil;
 
 public class ExpenseEntity implements Parcelable {
 
@@ -126,13 +123,7 @@ public class ExpenseEntity implements Parcelable {
     }
 
     public Date getOperationDateDate() {
-        try {
-            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd", Locale.UK);
-            return sf.parse(operationDate);
-        } catch (ParseException e) {
-            Log.e(ExpenseEntity.class.getName(), e.getMessage(), e);
-        }
-        return null;
+        return DateUtil.date(getOperationDate());
     }
 
     public String getOperationDate() {
