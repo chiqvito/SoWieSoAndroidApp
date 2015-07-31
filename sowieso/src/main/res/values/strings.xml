@@ -6,6 +6,7 @@
     <string name="title_expense_edit">Edit expense</string>
     <string name="title_login">Login</string>
     <string name="title_dialog_manage_expense">Manage expense</string>
+    <string name="title_dialog_manage_car_consumption">Manage car consumption</string>
     <string name="title_expense_report">Expense reports</string>
     <string name="title_expense_report_year">Years report</string>
     <string name="title_expense_report_yearmonth">Months report</string>
@@ -22,7 +23,7 @@
     <string name="label_date_pattern">yyyy-mm-dd</string>
     <string name="label_amount_pattern">0.00 [PLN]</string>
     <string name="label_refuel_amount_pattern">0.00 [l]</string>
-    <string name="label_distance_pattern">0.00 [m]</string>
+    <string name="label_distance_pattern">0.0 [km]</string>
     <string name="label_price_pattern">0.00 [PLN]</string>
     <string name="label_description">Description</string>
     <string name="label_login">Login</string>

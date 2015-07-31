@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import pl.chiqvito.sowieso.R;
 import pl.chiqvito.sowieso.db.model.ExpenseEntity;
-import pl.chiqvito.sowieso.ui.dialog.ExpenseDialog;
+import pl.chiqvito.sowieso.ui.dialog.ManageExpenseDialog;
 
 public class ExpenseModel extends BaseModel {
 
@@ -74,7 +74,7 @@ public class ExpenseModel extends BaseModel {
 
         @Override
         public void onClick(View v) {
-            ExpenseDialog dialog = ExpenseDialog.newInstance(expense);
+            ManageExpenseDialog dialog = ManageExpenseDialog.newInstance(expense);
             dialog.show(fm, null);
         }
     }

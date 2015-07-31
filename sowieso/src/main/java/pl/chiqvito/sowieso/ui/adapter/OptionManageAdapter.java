@@ -45,6 +45,13 @@ public abstract class OptionManageAdapter<T> extends BaseArrayAdapter<OptionItem
 
     }
 
+    public void loadData(List<T> data) {
+        List<OptionItem<T>> items = new ArrayList<OptionItem<T>>();
+        for (T t : data)
+            items.add(new OptionItem<T>(t));
+        super.load(items);
+    }
+
     private static class ViewHolder {
         TextView text;
     }

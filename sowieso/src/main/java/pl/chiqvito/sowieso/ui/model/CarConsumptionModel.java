@@ -1,5 +1,6 @@
 package pl.chiqvito.sowieso.ui.model;
 
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.SparseArray;
@@ -9,22 +10,25 @@ import android.widget.TextView;
 
 import pl.chiqvito.sowieso.R;
 import pl.chiqvito.sowieso.rest.dto.InventoryCarConsumptionDTO;
+import pl.chiqvito.sowieso.ui.dialog.ManageCarConsumptionDialog;
 
 public class CarConsumptionModel extends BaseModel {
 
     private InventoryCarConsumptionDTO dto;
+    private FragmentManager fm;
 
     public CarConsumptionModel(InventoryCarConsumptionDTO dto) {
         this.dto = dto;
     }
 
-    public CarConsumptionModel(SparseArray<BaseModel> viewModels) {
+    public CarConsumptionModel(SparseArray<BaseModel> viewModels, FragmentManager fm) {
         super(viewModels);
+        this.fm = fm;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup container) {
-        return new ViewHolder(inflate(container, R.layout.row_car_consumption));
+        return new ViewHolder(inflate(container, R.layout.row_car_consumption), fm);
     }
 
     @Override
@@ -37,7 +41,11 @@ public class CarConsumptionModel extends BaseModel {
         return ModelType.CAR_CONSUMPTION.getValue();
     }
 
-    private static class ViewHolder extends RecyclerView.ViewHolder {
+    private static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        private final FragmentManager fm;
+        private InventoryCarConsumptionDTO dto;
+
         private TextView txtName;
         private TextView txtDate;
         private TextView txtCombustion;
@@ -47,8 +55,11 @@ public class CarConsumptionModel extends BaseModel {
         private TextView txtRefuelAmount;
         private TextView txtTotalCost;
 
-        private ViewHolder(View itemView) {
+        private ViewHolder(View itemView, FragmentManager fm) {
             super(itemView);
+            this.fm = fm;
+            itemView.setOnClickListener(this);
+            itemView.setClickable(true);
             txtCombustion = (TextView) itemView.findViewById(R.id.txt_car_cons_combustion);
             txtDate = (TextView) itemView.findViewById(R.id.txt_car_cons_date);
             txtName = (TextView) itemView.findViewById(R.id.txt_car_cons_name);
@@ -60,6 +71,7 @@ public class CarConsumptionModel extends BaseModel {
         }
 
         public void bindView(InventoryCarConsumptionDTO dto) {
+            this.dto = dto;
             try {
                 txtName.setText(dto.getCar().getName());
                 txtCombustion.setText(dto.getCombustion().toString() + " l/km");
@@ -73,6 +85,13 @@ public class CarConsumptionModel extends BaseModel {
                 Log.e(CarConsumptionModel.class.getName(), e.getMessage(), e);
             }
         }
+
+        @Override
+        public void onClick(View v) {
+            ManageCarConsumptionDialog dialog = ManageCarConsumptionDialog.newInstance(dto);
+            dialog.show(fm, null);
+        }
+
     }
 
 }

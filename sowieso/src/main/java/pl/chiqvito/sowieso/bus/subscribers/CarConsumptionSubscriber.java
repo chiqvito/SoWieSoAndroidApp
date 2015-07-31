@@ -12,12 +12,14 @@ import pl.chiqvito.sowieso.bus.events.CarConsumptionInfoEvent;
 import pl.chiqvito.sowieso.bus.events.CarConsumptionOperationEvent;
 import pl.chiqvito.sowieso.bus.events.CarConsumptionsEvent;
 import pl.chiqvito.sowieso.bus.events.Event;
+import pl.chiqvito.sowieso.bus.events.SwitchFragmentEvent;
 import pl.chiqvito.sowieso.db.service.PropertiesService;
 import pl.chiqvito.sowieso.rest.client.BaseApiClient;
 import pl.chiqvito.sowieso.rest.client.BasicOnResultCallback;
 import pl.chiqvito.sowieso.rest.client.InventoryCarConsumptionCRUDClient;
 import pl.chiqvito.sowieso.rest.client.InventoryCarConsumptionsClient;
 import pl.chiqvito.sowieso.rest.dto.InventoryCarConsumptionDTO;
+import pl.chiqvito.sowieso.ui.fragment.FragmentBuilder;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -47,6 +49,14 @@ public class CarConsumptionSubscriber {
                 } else {
                     crud(dto, BaseApiClient.Operation.UPDATE);
                 }
+                break;
+            }
+            case EDIT: {
+                EventBus.getDefault().post(new SwitchFragmentEvent(FragmentBuilder.FragmentName.INVENTORY_CAR_CONSUMPTION_EDIT, event.getDto()));
+                break;
+            }
+            case REMOVE: {
+                crud(event.getDto(), BaseApiClient.Operation.REMOVE);
                 break;
             }
         }

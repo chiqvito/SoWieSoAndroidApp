@@ -39,7 +39,7 @@ public class CarConsumptionsFragment extends BaseListFragment {
 
     @Override
     protected BaseRecyclerViewAdapter adapter() {
-        return new CarConsumptionAdapter();
+        return new CarConsumptionAdapter(getFragmentManager());
     }
 
     @Override

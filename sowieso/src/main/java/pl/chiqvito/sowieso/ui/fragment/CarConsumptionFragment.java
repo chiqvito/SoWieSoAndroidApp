@@ -30,6 +30,7 @@ import pl.chiqvito.sowieso.bus.events.Event;
 import pl.chiqvito.sowieso.bus.events.SwitchFragmentEvent;
 import pl.chiqvito.sowieso.db.model.CarEntity;
 import pl.chiqvito.sowieso.rest.dto.InventoryCarConsumptionDTO;
+import pl.chiqvito.sowieso.rest.dto.enums.CurrencyEnum;
 import pl.chiqvito.sowieso.rest.dto.enums.PetrolStationEnum;
 import pl.chiqvito.sowieso.ui.adapter.OptionSpinnerAdapter;
 import pl.chiqvito.sowieso.ui.model.OptionItem;
@@ -164,20 +165,14 @@ public class CarConsumptionFragment extends BaseFragment {
         if (dto != null) {
             position = dataAdapter.getPosition(new OptionItem<CarEntity>(dto.getCar().toCarEntity()));
             holder.spinnerCar.setSelection(position);
+
+            position = ((OptionSpinnerAdapter<PetrolStationEnum>) holder.spinnerPetrolStation.getAdapter()).getPosition(new OptionItem<PetrolStationEnum>(dto.getPetrolStation()));
+            holder.spinnerPetrolStation.setSelection(position);
+
             holder.txtRefuelAmount.setText(dto.getRefuelAmount().toString());
             holder.txtRefuelDate.setText(dto.getRefuelDateString());
             holder.txtDistance.setText(dto.getDistance().toString());
             holder.txtPrice.setText(dto.getPrice().toString());
-
-            position = 0;
-            for (int i = 0; i < holder.spinnerPetrolStation.getAdapter().getCount(); i++) {
-                OptionItem<CarEntity> cat = (OptionItem<CarEntity>) holder.spinnerPetrolStation.getAdapter().getItem(i);
-                if (cat != null && cat.getType().getIsSelected()) {
-                    position = i;
-                    break;
-                }
-            }
-            holder.spinnerPetrolStation.setSelection(position);
         }
     }
 
@@ -212,6 +207,7 @@ public class CarConsumptionFragment extends BaseFragment {
 
     private InventoryCarConsumptionDTO collectData() {
         InventoryCarConsumptionDTO dto = new InventoryCarConsumptionDTO();
+        dto.setCurrency(CurrencyEnum.PLN);
         InventoryCarConsumptionDTO oldDto = dto();
         if (oldDto != null) {
             dto.setId(oldDto.getId());
