@@ -15,6 +15,7 @@
     <string name="title_inventory_car_consumption_list">Car consumption</string>
     <string name="title_inventory_car_consumption_add">Add consumption</string>
     <string name="title_inventory_car_consumption_edit">Edit consumption</string>
+    <string name="title_confirm">Confirm</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -36,6 +37,8 @@
     <string name="action_cancel">Cancel</string>
     <string name="action_load_configuration">Load configuration</string>
     <string name="action_save_on_server">Save on server</string>
+    <string name="action_no">No</string>
+    <string name="action_yes">Yes</string>
 
     <string name="msg_working">working . . .</string>
     <string name="msg_required_name">Name is required!</string>
@@ -54,6 +57,7 @@
     <string name="msg_forbidden">Forbidden, please login!</string>
     <string name="msg_unauthorized">Unauthorized, please login!</string>
     <string name="msg_can_not_login">Can not login. Set up username and password.</string>
+    <string name="msg_are_you_sure_remove">Are you sure to remove?</string>
 
     <string name="manage_type_edit">Edit</string>
     <string name="manage_type_remove">Remove</string>

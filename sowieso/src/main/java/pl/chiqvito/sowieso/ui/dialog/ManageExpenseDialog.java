@@ -29,7 +29,18 @@ public class ManageExpenseDialog extends ManageDialog {
 
     @Override
     protected void remove() {
-        EventBus.getDefault().post(new ExpenseOperationEvent(Event.Operation.REMOVE, expense()));
+        YesNoDialog yesNo = YesNoDialog.newInstance(getString(R.string.title_confirm), getString(R.string.msg_are_you_sure_remove), new YesNoDialog.YesNoCallback() {
+            @Override
+            public void action() {
+                EventBus.getDefault().post(new ExpenseOperationEvent(Event.Operation.REMOVE, expense()));
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+        });
+        yesNo.show(getFragmentManager(), null);
     }
 
     @Override
